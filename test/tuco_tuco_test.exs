@@ -10,8 +10,7 @@ defmodule TucoTucoTest do
   end
 
   test "current session returns nil when there is no session" do
-    {:ok, session} = TucoTuco.current_session
-    assert session == nil
+    assert TucoTuco.current_session == nil
   end
 
   test "sessions returns an empty array when nothing is running" do

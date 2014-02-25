@@ -20,6 +20,15 @@ defmodule TucoTuco do
     :gen_server.call :tuco_tuco, :sessions
   end
 
+  def app_root do
+    {:ok, app_root} = :gen_server.call :tuco_tuco, :app_root
+    app_root
+  end
+
+  def app_root new_root do
+    {:ok, _} = :gen_server.call :tuco_tuco, {:app_root, new_root}
+  end
+
   def start_session browser_name, session_name, driver \\ :phantomjs do
     browser_config = WebDriver.Config.new(browser: driver, name: browser_name)
     :gen_server.call :tuco_tuco, {:start_session, browser_config, session_name}

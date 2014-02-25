@@ -1,7 +1,7 @@
 defmodule TucoTuco.SessionPool do
   use GenServer.Behaviour
 
-  defrecord SessionPoolState, current_session: nil
+  defrecord SessionPoolState, current_session: nil, app_root: nil
 
   def start_link do
     state = SessionPoolState.new
@@ -26,6 +26,15 @@ defmodule TucoTuco.SessionPool do
       true -> {:reply, {:ok, state.current_session}, state}
       false -> {:reply, {:ok, nil}, state.current_session(nil)}
     end
+  end
+
+  def handle_call :app_root, _sender, state do
+    {:reply, {:ok, state.app_root}, state}
+  end
+
+  def handle_call {:app_root, new_app_root}, _sender, state do
+    state = state.app_root(new_app_root)
+    {:reply, {:ok, state}, state}
   end
 
   def handle_call :sessions, _sender, state do

@@ -1,4 +1,4 @@
-# HTTP Server for testing WebDriver
+# HTTP Server for testing.
 defmodule TucoTuco.TestServer do
   @config [ port: 8889,
             server_root:   String.to_char_list!(Path.absname("../", __DIR__)),
@@ -19,6 +19,6 @@ defmodule TucoTuco.TestServer do
   end
 
   def stop() do
-    :ok = :inets.stop(:httpd, {{127,0,0,1}, 8888})
+    :ok = :inets.stop(:httpd, {{127,0,0,1}, 8889})
   end
 end
