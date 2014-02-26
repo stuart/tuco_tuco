@@ -18,10 +18,7 @@ defmodule TucoTuco.Actions do
     WebDriver.Element.click element
   end
 
-  def fill_in field, options do
-    [with: search_term] = options
-    xpath = "//input[contains(., '#{search_term}')]"
-    elem = WebDriver.Session.element(current_session, :id, search_term)
-    WebDriver.Element.  element
+  def fill_in field, text do
+    find(:fill_field, field) |> WebDriver.Element.value(text)
   end
 end

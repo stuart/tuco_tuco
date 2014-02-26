@@ -43,9 +43,12 @@ defmodule TucoTucoActionsTest do
     assert {:ok, _resp} = click_button "b1"
   end
 
-  @tag :wip
-  test "click a submit button" do
-    assert {:ok, _resp} = click_button "Submit"
+  test "click a submit button by value" do
+    assert {:ok, _resp} = click_button "Click"
+  end
+
+  test "click a submit button by id" do
+    assert {:ok, _resp} = click_button "b2"
   end
 
   test "click a button that does not exist" do
@@ -54,11 +57,16 @@ defmodule TucoTucoActionsTest do
   end
 
   test "fill in field by id" do
-    assert {:ok, _} = fill_in "f1", with: "Bob"
+    assert {:ok, _} = fill_in "i1", "Bob"
   end
 
+  test "fill in field by name" do
+    assert {:ok, _} = fill_in "name", "Bill"
+  end
+
+  @tag :wip
   test "fill in field by label" do
-    assert {:ok, _} = fill_in "Name", with: "Bill"
+    assert {:ok, _} = fill_in "Name", "Frank"
   end
 
   defp visit_index do
