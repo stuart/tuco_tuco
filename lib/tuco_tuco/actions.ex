@@ -26,6 +26,10 @@ defmodule TucoTuco.Actions do
     {:error, "No field found with id, name or label specified"}
   end
 
+  defp do_fill_in element, text do
+    WebDriver.Element.value(element, text)
+  end
+
   def choose text do
     find(:radio, text) |> do_choose
   end
@@ -38,7 +42,18 @@ defmodule TucoTuco.Actions do
     WebDriver.Element.click element
   end
 
-  defp do_fill_in element, text do
-    WebDriver.Element.value(element, text)
+  def check text do
+    find(:checkbox, text) |> do_check
+  end
+
+  def uncheck text do
+    find(:checkbox, text) |> do_check
+  end
+
+  def do_check element do
+    case WebDriver.Element.attribute(element, :checked) == "true" do
+      true -> {:ok, "Already checked"}
+      false -> do_click element
+    end
   end
 end

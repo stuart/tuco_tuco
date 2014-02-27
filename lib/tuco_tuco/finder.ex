@@ -35,7 +35,7 @@ defmodule TucoTuco.Finder do
   end
 
   def find :field_for_label, label do
-    case find :xpath, "//label[contains(.,'#{label}')]" do
+    case find :xpath, "//label[. = normalize-space('#{label}')]" do
       nil     -> nil
       element -> find :id, WebDriver.Element.attribute(element, :for)
     end
@@ -43,6 +43,13 @@ defmodule TucoTuco.Finder do
 
   def find :radio, term do
     case find :xpath, "//input[@type='radio' and (@name='#{term}' or @id='#{term}')]" do
+      nil -> find :field_for_label, term
+      element -> element
+    end
+  end
+
+  def find :checkbox, term do
+    case find :xpath, "//input[@type='checkbox' and (@name='#{term}' or @id='#{term}')]" do
       nil -> find :field_for_label, term
       element -> element
     end

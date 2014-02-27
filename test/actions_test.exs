@@ -107,6 +107,26 @@ defmodule TucoTucoActionsTest do
     assert {:error, "No radio button with id or label found"} = choose "b1"
   end
 
+# Check checkbox
+  test "check a checkbox by id" do
+    {:ok, _} = check "cb1"
+    box = WebDriver.Session.element current_session, :id, "cb1"
+    assert  WebDriver.Element.attribute(box, :checked) == "true"
+  end
+
+  test "check a checkbox by label" do
+    {:ok, _} = check "Accept Anything"
+    box = WebDriver.Session.element current_session, :id, "cb1"
+    assert  WebDriver.Element.attribute(box, :checked) == "true"
+  end
+
+  test "check does not uncheck an already checked box" do
+    {:ok, _} = check "cb1"
+    assert {:ok, "Already checked"} = check "cb1"
+    box = WebDriver.Session.element current_session, :id, "cb1"
+    assert  WebDriver.Element.attribute(box, :checked) == "true"
+  end
+
 
   defp visit_index do
     visit "http://localhost:8889/index.html"
