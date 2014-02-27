@@ -50,22 +50,22 @@ defmodule TucoTuco.Actions do
     find(:checkbox, text) |> do_uncheck
   end
 
-  def do_check nil do
+  defp do_check nil do
     {:error, "No checkbox with id, name or label found"}
   end
 
-  def do_check element do
+  defp do_check element do
     case WebDriver.Element.attribute(element, :checked) == "true" do
       true -> {:ok, "Already checked"}
       false -> do_click element
     end
   end
 
-  def do_uncheck nil do
+  defp do_uncheck nil do
     {:error, "No checkbox with id, name or label found"}
   end
 
-  def do_uncheck element do
+  defp do_uncheck element do
     case WebDriver.Element.attribute(element, :checked) == "true" do
       true -> do_click element
       false -> {:ok, "Already un-checked"}
@@ -76,7 +76,15 @@ defmodule TucoTuco.Actions do
     find(:option, text) |> do_click
   end
 
-  def select text, [from: sel] do
+  def select text, from: sel do
     find(:option, text, sel) |> do_click
+  end
+
+  defp do_select nil do
+    {:error, "No option found."}
+  end
+
+  defp do_select element do
+    do_click element
   end
 end

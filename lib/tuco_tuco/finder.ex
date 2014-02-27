@@ -34,8 +34,12 @@ defmodule TucoTuco.Finder do
     end
   end
 
+  def find :label, term do
+    find :xpath, "//label[. = normalize-space('#{term}')]"
+  end
+
   def find :field_for_label, label do
-    case find :xpath, "//label[. = normalize-space('#{label}')]" do
+    case find :label, label do
       nil     -> nil
       element -> find :id, WebDriver.Element.attribute(element, :for)
     end
@@ -43,31 +47,30 @@ defmodule TucoTuco.Finder do
 
   def find :radio, term do
     case find :xpath, "//input[@type='radio' and (@name='#{term}' or @id='#{term}')]" do
-      nil -> find :field_for_label, term
+      nil     -> find :field_for_label, term
       element -> element
     end
   end
 
   def find :checkbox, term do
     case find :xpath, "//input[@type='checkbox' and (@name='#{term}' or @id='#{term}')]" do
-      nil -> find :field_for_label, term
+      nil     -> find :field_for_label, term
       element -> element
     end
   end
 
   def find :option, term do
-    case find :xpath, "//option[@value='#{term}' or .=normalize-space('#{term}')]" do
-      nil -> {:error, "No option found."}
-      element -> element
-    end
+    find :xpath, "//option[@value='#{term}' or .=normalize-space('#{term}')]"
   end
 
-  def find :option, term, select do
-    case find :xpath, "//select[@id='#{select}' or @name='#{select}']\
-                      /option[@value='#{term}' or .=normalize-space('#{term}')]" do
-      nil -> {:error, "No option found."}
-      element -> element
+  def find :option, term, sel do
+    label = find :label, sel
+    if label != :nil do
+      sel = WebDriver.Element.attribute(label, :for)
     end
+
+    find :xpath, "//select[@id='#{sel}' or @name='#{sel}']\
+                      /option[@value='#{term}' or .=normalize-space('#{term}')]"
   end
 
   def find_all :xpath, xpath do

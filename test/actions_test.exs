@@ -146,7 +146,7 @@ defmodule TucoTucoActionsTest do
     assert {:error, "No checkbox with id, name or label found"} = uncheck "nothing"
   end
 
-# Select boxes
+# Select options
   test "selecting an option by text" do
     {:ok, _} = select "Wednesday"
     option = WebDriver.Session.element current_session, :xpath, "//option[@value='wednesday']"
@@ -170,6 +170,20 @@ defmodule TucoTucoActionsTest do
     {:ok, _} = select "Orange", from: "fruits"
     option = WebDriver.Session.element current_session, :xpath, "//option[@value='fruit-orange']"
     assert WebDriver.Element.attribute(option, :selected) == "true"
+  end
+
+  test "selecting an option from a select by label" do
+    {:ok, _} = select "Orange", from: "Fruits"
+    option = WebDriver.Session.element current_session, :xpath, "//option[@value='fruit-orange']"
+    assert WebDriver.Element.attribute(option, :selected) == "true"
+  end
+
+  test "selecting from a non existent option by label" do
+    assert {:error, _} = select "Mango", from: "Fruits"
+  end
+
+  test "selecting from a non existent option" do
+    assert {:error, _} = select "Mango"
   end
 
   defp visit_index do
