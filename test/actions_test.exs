@@ -86,17 +86,17 @@ defmodule TucoTucoActionsTest do
   test "choose a radio button by id" do
     assert {:ok, _} = choose "male"
     element = WebDriver.Session.element current_session, :id, "male"
-    assert WebDriver.Element.attribute(element, :checked) == "true"
+    assert WebDriver.Element.selected? element
     element = WebDriver.Session.element current_session, :id, "female"
-    assert WebDriver.Element.attribute(element, :checked) == :null
+    refute WebDriver.Element.selected? element
   end
 
   test "choose a radio button by label" do
     assert {:ok, _} = choose "Female"
     element = WebDriver.Session.element current_session, :id, "male"
-    assert WebDriver.Element.attribute(element, :checked) == :null
+    refute WebDriver.Element.selected? element
     element = WebDriver.Session.element current_session, :id, "female"
-    assert WebDriver.Element.attribute(element, :checked) == "true"
+    assert WebDriver.Element.selected? element
   end
 
   test "choose a non existent radio button" do
@@ -111,20 +111,20 @@ defmodule TucoTucoActionsTest do
   test "check a checkbox by id" do
     {:ok, _} = check "cb1"
     box = WebDriver.Session.element current_session, :id, "cb1"
-    assert  WebDriver.Element.attribute(box, :checked) == "true"
+    assert WebDriver.Element.selected? box
   end
 
   test "check a checkbox by label" do
     {:ok, _} = check "Accept Anything"
     box = WebDriver.Session.element current_session, :id, "cb1"
-    assert  WebDriver.Element.attribute(box, :checked) == "true"
+    assert WebDriver.Element.selected? box
   end
 
   test "check does not uncheck an already checked box" do
     {:ok, _} = check "cb1"
     assert {:ok, "Already checked"} = check "cb1"
     box = WebDriver.Session.element current_session, :id, "cb1"
-    assert  WebDriver.Element.attribute(box, :checked) == "true"
+    assert WebDriver.Element.selected? box
   end
 
   test "check a non existent element" do
@@ -135,7 +135,7 @@ defmodule TucoTucoActionsTest do
     {:ok, _} = check "cb1"
     {:ok, _} = uncheck "cb1"
     box = WebDriver.Session.element current_session, :id, "cb1"
-    assert WebDriver.Element.attribute(box, :checked) == :null
+    refute WebDriver.Element.selected? box
   end
 
   test "uncheck does not uncheck twice" do
@@ -150,32 +150,32 @@ defmodule TucoTucoActionsTest do
   test "selecting an option by text" do
     {:ok, _} = select "Wednesday"
     option = WebDriver.Session.element current_session, :xpath, "//option[@value='wednesday']"
-    assert WebDriver.Element.attribute(option, :selected) == "true"
+    assert WebDriver.Element.selected? option
   end
 
   test "selecting an option by value" do
     {:ok, _} = select "tuesday"
     option = WebDriver.Session.element current_session, :xpath, "//option[@value='tuesday']"
-    assert WebDriver.Element.attribute(option, :selected) == "true"
+    assert WebDriver.Element.selected? option
   end
 
   test "selecting an already selected option" do
     {:ok, _} = select "tuesday"
     {:ok, _} = select "tuesday"
     option = WebDriver.Session.element current_session, :xpath, "//option[@value='tuesday']"
-    assert WebDriver.Element.attribute(option, :selected) == "true"
+    assert WebDriver.Element.selected? option
   end
 
   test "selecting an option from a certain select" do
     {:ok, _} = select "Orange", from: "fruits"
     option = WebDriver.Session.element current_session, :xpath, "//option[@value='fruit-orange']"
-    assert WebDriver.Element.attribute(option, :selected) == "true"
+    assert WebDriver.Element.selected? option
   end
 
   test "selecting an option from a select by label" do
     {:ok, _} = select "Orange", from: "Fruits"
     option = WebDriver.Session.element current_session, :xpath, "//option[@value='fruit-orange']"
-    assert WebDriver.Element.attribute(option, :selected) == "true"
+    assert WebDriver.Element.selected? option
   end
 
   test "selecting from a non existent option by label" do
