@@ -20,6 +20,7 @@ defmodule TucoTucoActionsTest do
     :ok
   end
 
+# Click links
   test "click_link via text" do
     click_link "Page 2"
     assert current_path == "/page_2.html"
@@ -56,6 +57,7 @@ defmodule TucoTucoActionsTest do
     assert resp === {:error, "Nothing to click"}
   end
 
+# Fill in fields
   test "fill in field by id" do
     assert {:ok, _} = fill_in "i1", "Bob"
   end
@@ -68,6 +70,10 @@ defmodule TucoTucoActionsTest do
     assert {:ok, _} = fill_in "Name", "Frank"
   end
 
+  test "fill in a text area" do
+    assert {:ok, _} = fill_in "Message", "This is my special message to you!"
+  end
+
   test "fill in a non existent field" do
     assert {:error, "No field found with id, name or label specified"} == fill_in "not_a_field", "Foo"
   end
@@ -76,6 +82,7 @@ defmodule TucoTucoActionsTest do
     assert {:error, "No field found with id, name or label specified"} = fill_in "b1", "Frank"
   end
 
+# Choose Radio Buttons
   test "choose a radio button by id" do
     assert {:ok, _} = choose "male"
     element = WebDriver.Session.element current_session, :id, "male"
@@ -99,6 +106,7 @@ defmodule TucoTucoActionsTest do
   test "choose something that is not a radio button" do
     assert {:error, "No radio button with id or label found"} = choose "b1"
   end
+
 
   defp visit_index do
     visit "http://localhost:8889/index.html"
