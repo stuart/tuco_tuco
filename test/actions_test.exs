@@ -127,6 +127,50 @@ defmodule TucoTucoActionsTest do
     assert  WebDriver.Element.attribute(box, :checked) == "true"
   end
 
+  test "check a non existent element" do
+    assert {:error, "No checkbox with id, name or label found"} = check "nothing"
+  end
+
+  test "uncheck a checkbox" do
+    {:ok, _} = check "cb1"
+    {:ok, _} = uncheck "cb1"
+    box = WebDriver.Session.element current_session, :id, "cb1"
+    assert WebDriver.Element.attribute(box, :checked) == :null
+  end
+
+  test "uncheck does not uncheck twice" do
+    assert {:ok, "Already un-checked"} = uncheck "cb1"
+  end
+
+  test "uncheck a non existent element" do
+    assert {:error, "No checkbox with id, name or label found"} = uncheck "nothing"
+  end
+
+# Select boxes
+  test "selecting an option by text" do
+    {:ok, _} = select "Wednesday"
+    option = WebDriver.Session.element current_session, :xpath, "//option[@value='wednesday']"
+    assert WebDriver.Element.attribute(option, :selected) == "true"
+  end
+
+  test "selecting an option by value" do
+    {:ok, _} = select "tuesday"
+    option = WebDriver.Session.element current_session, :xpath, "//option[@value='tuesday']"
+    assert WebDriver.Element.attribute(option, :selected) == "true"
+  end
+
+  test "selecting an already selected option" do
+    {:ok, _} = select "tuesday"
+    {:ok, _} = select "tuesday"
+    option = WebDriver.Session.element current_session, :xpath, "//option[@value='tuesday']"
+    assert WebDriver.Element.attribute(option, :selected) == "true"
+  end
+
+  test "selecting an option from a certain select" do
+    {:ok, _} = select "Orange", from: "fruits"
+    option = WebDriver.Session.element current_session, :xpath, "//option[@value='fruit-orange']"
+    assert WebDriver.Element.attribute(option, :selected) == "true"
+  end
 
   defp visit_index do
     visit "http://localhost:8889/index.html"

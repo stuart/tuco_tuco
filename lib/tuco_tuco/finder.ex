@@ -55,6 +55,21 @@ defmodule TucoTuco.Finder do
     end
   end
 
+  def find :option, term do
+    case find :xpath, "//option[@value='#{term}' or .=normalize-space('#{term}')]" do
+      nil -> {:error, "No option found."}
+      element -> element
+    end
+  end
+
+  def find :option, term, select do
+    case find :xpath, "//select[@id='#{select}' or @name='#{select}']\
+                      /option[@value='#{term}' or .=normalize-space('#{term}')]" do
+      nil -> {:error, "No option found."}
+      element -> element
+    end
+  end
+
   def find_all :xpath, xpath do
     WebDriver.Session.elements(current_session, :xpath, xpath)
   end
