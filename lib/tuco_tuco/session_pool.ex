@@ -22,9 +22,10 @@ defmodule TucoTuco.SessionPool do
 
   def handle_call :current_session, _sender, state do
     # Reset to nil if the session is not running any more.
-    case :lists.member( state.current_session, WebDriver.sessions ) do
-      true -> {:reply, {:ok, state.current_session}, state}
-      false -> {:reply, {:ok, nil}, state.current_session(nil)}
+    if :lists.member( state.current_session, WebDriver.sessions ) do
+      {:reply, {:ok, state.current_session}, state}
+    else
+      {:reply, {:ok, nil}, state.current_session(nil)}
     end
   end
 

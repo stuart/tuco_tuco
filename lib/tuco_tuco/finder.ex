@@ -20,19 +20,16 @@ defmodule TucoTuco.Finder do
   def find :button, term do
     case find :id, term do
       nil ->
-        find :xpath, "//button[contains(., '#{term}')] | //input[@type='submit'\
-                      and (@value='#{term}' or @id='#{term}' or @title='#{term}')]"
+        find :xpath, "//button[contains(., '#{term}')] | \
+        //input[@type='submit' and (@value='#{term}' or @title='#{term}')]"
       element -> element
     end
   end
 
   def find :fillable_field, term do
-    case find :id, term do
-      nil ->
-        case find :xpath, "//input[@type='text' and @name='#{term}'] | //textarea[@name='#{term}']" do
-          nil     -> find :field_for_label, term
-          element -> element
-        end
+    case find :xpath, "//input[@type='text' and (@name='#{term}' or @id='#{term}')] | \
+    //textarea[@name='#{term}' or @id='#{term}']" do
+      nil     -> find :field_for_label, term
       element -> element
     end
   end
@@ -42,5 +39,16 @@ defmodule TucoTuco.Finder do
       nil     -> nil
       element -> find :id, WebDriver.Element.attribute(element, :for)
     end
+  end
+
+  def find :radio, term do
+    case find :xpath, "//input[@type='radio' and (@name='#{term}' or @id='#{term}')]" do
+      nil -> find :field_for_label, term
+      element -> element
+    end
+  end
+
+  def find_all :xpath, xpath do
+    WebDriver.Session.elements(current_session, :xpath, xpath)
   end
 end

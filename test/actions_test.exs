@@ -64,9 +64,40 @@ defmodule TucoTucoActionsTest do
     assert {:ok, _} = fill_in "name", "Bill"
   end
 
-  @tag :wip
   test "fill in field by label" do
     assert {:ok, _} = fill_in "Name", "Frank"
+  end
+
+  test "fill in a non existent field" do
+    assert {:error, "No field found with id, name or label specified"} == fill_in "not_a_field", "Foo"
+  end
+
+  test "fill in an element that is not a field" do
+    assert {:error, "No field found with id, name or label specified"} = fill_in "b1", "Frank"
+  end
+
+  test "choose a radio button by id" do
+    assert {:ok, _} = choose "male"
+    element = WebDriver.Session.element current_session, :id, "male"
+    assert WebDriver.Element.attribute(element, :checked) == "true"
+    element = WebDriver.Session.element current_session, :id, "female"
+    assert WebDriver.Element.attribute(element, :checked) == :null
+  end
+
+  test "choose a radio button by label" do
+    assert {:ok, _} = choose "Female"
+    element = WebDriver.Session.element current_session, :id, "male"
+    assert WebDriver.Element.attribute(element, :checked) == :null
+    element = WebDriver.Session.element current_session, :id, "female"
+    assert WebDriver.Element.attribute(element, :checked) == "true"
+  end
+
+  test "choose a non existent radio button" do
+    assert {:error, "No radio button with id or label found"} = choose "Neuter"
+  end
+
+  test "choose something that is not a radio button" do
+    assert {:error, "No radio button with id or label found"} = choose "b1"
   end
 
   defp visit_index do

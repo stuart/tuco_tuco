@@ -51,7 +51,6 @@ defmodule TucoTucoDSLTest do
     assert current_path == "/page_2.html"
   end
 
-
   defp visit_index do
     visit "http://localhost:8889/index.html"
   end

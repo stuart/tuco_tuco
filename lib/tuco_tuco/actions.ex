@@ -19,6 +19,26 @@ defmodule TucoTuco.Actions do
   end
 
   def fill_in field, text do
-    find(:fillable_field, field) |> WebDriver.Element.value(text)
+    find(:fillable_field, field) |> do_fill_in text
+  end
+
+  defp do_fill_in nil, text do
+    {:error, "No field found with id, name or label specified"}
+  end
+
+  def choose text do
+    find(:radio, text) |> do_choose
+  end
+
+  defp do_choose nil do
+    {:error, "No radio button with id or label found"}
+  end
+
+  defp do_choose element do
+    WebDriver.Element.click element
+  end
+
+  defp do_fill_in element, text do
+    WebDriver.Element.value(element, text)
   end
 end
