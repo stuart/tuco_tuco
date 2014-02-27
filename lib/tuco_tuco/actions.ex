@@ -19,6 +19,6 @@ defmodule TucoTuco.Actions do
   end
 
   def fill_in field, text do
-    find(:fill_field, field) |> WebDriver.Element.value(text)
+    find(:fillable_field, field) |> WebDriver.Element.value(text)
   end
 end
