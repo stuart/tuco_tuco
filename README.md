@@ -112,6 +112,29 @@ Here is a rough guide to using TucoTuco.
     WebDriver.Session.execute current_session, "return arguments[0] * arguments[1];", [5,3]
   ```
 
+### Multiple Sessions
+  You can run multiple sessions on different browser or on the same browser.
+  To start a session use:
+
+  ```
+    TucoTuco.start_session :browser_name, :session_name, browser_type
+  ```
+
+  Where the browser type is one of :phantomjs, :firefox or :chrome.
+  If the process :browser_name is already running the session will be started on
+  that, otherwise a new browser will start running.
+
+  Once you have multiple sessions running you can swap sessions with:
+
+  ```
+    TucoTuco.session :new_session
+  ```
+
+  And to get a list of sessions that are running:
+  ```
+    TucoTuco.sessions
+  ```
+
 Example Session from console:
 ( some responses have been cut for brevity )
 
