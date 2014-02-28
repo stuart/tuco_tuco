@@ -10,10 +10,10 @@ easy for developers to write tests for a web application.
 
 ## Setup
 In your mix.exs add the following to the test environment deps:
-   {:tucotuco, github: "stuart/TucoTuco"}
+   ```{:tucotuco, github: "stuart/TucoTuco"} ```
 
 To start it add the line to your test_helper.exs:
-    :application.start TucoTuco
+    ``` :application.start TucoTuco ```
 
 
 ## Requirements
