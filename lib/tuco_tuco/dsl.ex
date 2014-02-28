@@ -4,6 +4,8 @@ defmodule TucoTuco.DSL do
     quote do
       import unquote(__MODULE__)
       import TucoTuco.Actions
+      import TucoTuco.Assertions
+      alias TucoTuco.Page, as: Page
     end
   end
 
@@ -41,6 +43,10 @@ defmodule TucoTuco.DSL do
 
   def current_port do
     __uri__.port
+  end
+
+  def current_query do
+    __uri__.query
   end
 
   def current_session do

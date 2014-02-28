@@ -87,4 +87,17 @@ defmodule TucoTuco.Actions do
   defp do_select element do
     do_click element
   end
+
+  # WIP
+  def unselect text do
+    find(:option, text) |> do_select
+  end
+
+  def attach_file text, filename do
+    if File.exists?(filename) do
+      find(:file_field, text) |> WebDriver.Element.value(filename)
+    else
+      {:error, "File not found"}
+    end
+  end
 end

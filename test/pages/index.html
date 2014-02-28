@@ -5,6 +5,7 @@
   </head>
   <body>
     <h1>Test Index</h1>
+    <p>A test page for TucoTuco.</p>
     <ul>
       <li><a href="page_1.html" id="p1">Page 1</a></li>
       <li><a href="page_2.html" id="p2">Page 2</a></li>
@@ -45,7 +46,7 @@
         </select>
       </p>
       <p>
-        <label for="colors">Colors</label>
+        <label for="sel2">Colors</label>
         <select name="colors" id="sel2">
           <option value="color-orange">Orange</option>
           <option value="color-blue">Blue</option>
@@ -62,12 +63,35 @@
       <p>
         <label for="tools">Tools</label>
         <select name="tools" id="sel3" multiple="true">
-          <option value="hammer">Hammer</option>
-          <option value="shifter">Shifter</option>
-          <option value="pliers">Pliers</option>
+          <option value="hammer" name="hammer">Hammer</option>
+          <option value="shifter"  name="shifter">Shifter</option>
+          <option value="pliers" name="pliers">Pliers</option>
         </select>
+      </p>
+      <p>
+        <label for="file">Upload</label>
+        <input type="file" id="file" name="attachment"/>
       </p>
       <input type="submit" id="b2" value="Click"/>
     </form>
+
+    <table id="table1">
+      <caption>My Fantastic Stuff</caption>
+      <thead>
+        <tr>
+          <td>Stuff</td>
+          <td>Description</td>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Thing</td>
+          <td>A thing</td>
+        </tr>
+        <tr>
+          <td>Something Else</td>
+          <td>Another thing</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>

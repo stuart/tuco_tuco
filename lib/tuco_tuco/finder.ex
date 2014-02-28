@@ -59,6 +59,31 @@ defmodule TucoTuco.Finder do
     end
   end
 
+  def find :file_field, term do
+    case find :xpath, "//input[@type='file' and (@name='#{term}' or @id='#{term}')]" do
+      nil     -> find :field_for_label, term
+      element -> element
+    end
+  end
+
+  def find :checkbox_or_radio, term do
+    case find :xpath, "//input[(@type='checkbox' or @type='radio') and (@name='#{term}' or @id='#{term}')]" do
+      nil     -> find :field_for_label, term
+      element -> element
+    end
+  end
+
+  def find :select, term do
+    case find :xpath, "//select[@id='#{term}' or @name='#{term}']" do
+      nil -> find :field_for_label, term
+      element -> element
+    end
+  end
+
+  def find :table, term do
+    find :xpath, "//table[@id='#{term}' or @name='#{term}'] | //table/caption[.='#{term}']"
+  end
+
   def find :option, term do
     find :xpath, "//option[@value='#{term}' or .=normalize-space('#{term}')]"
   end

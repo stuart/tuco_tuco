@@ -20,6 +20,10 @@ defmodule TucoTucoActionsTest do
     :ok
   end
 
+  defp visit_index do
+    visit "http://localhost:8889/index.html"
+  end
+
 # Click links
   test "click_link via text" do
     click_link "Page 2"
@@ -186,7 +190,33 @@ defmodule TucoTucoActionsTest do
     assert {:error, _} = select "Mango"
   end
 
-  defp visit_index do
-    visit "http://localhost:8889/index.html"
+  test "selecting from a multiple select" do
+    {:ok, _} = select "Hammer"
+    {:ok, _} = select "Pliers"
+    hammer = WebDriver.Session.element current_session, :name, "hammer"
+    assert WebDriver.Element.selected? hammer
+    pliers = WebDriver.Session.element current_session, :name, "pliers"
+    assert WebDriver.Element.selected? pliers
+    shifter = WebDriver.Session.element current_session, :name, "shifter"
+    refute WebDriver.Element.selected? shifter
+  end
+
+  @tag wip: true
+  test "unselect an option" do
+    {:ok, _} = select "tuesday"
+    {:ok, _} = unselect "tuesday"
+    option = WebDriver.Session.element current_session, :xpath, "//option[@value='tuesday']"
+    refute WebDriver.Element.selected? option
+  end
+
+  test "attach a file" do
+    assert {:ok, _} = attach_file "Upload", "test/upload.txt"
+    click_button "Click"
+    assert Regex.match?(~r{upload.txt}, current_query)
+  end
+
+  @tag wip: true
+  test "attach a file that does not exist" do
+    assert {:error, "File not found"} = attach_file "Upload", "test/nothing.txt"
   end
 end
