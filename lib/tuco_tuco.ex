@@ -1,39 +1,78 @@
 defmodule TucoTuco do
   use Application.Behaviour
 
+  @moduledoc """
+    TucoTuco is a web testing suite for Elixir applications.
+    To use it make sure the TucoTuco application is running by specifying it
+    in your config.ex or doing:
+
+      :application.start :tuco_tuco
+
+    To use the methods it exposes in a test case just add this line at the top:
+     ```use TucoTuco.DSL```
+
+  """
+
   defrecord Config, browser: :phantomjs, name: nil
 
+  @doc """
+    Start the TucoTuco application.
+  """
   def start(_type, _args) do
     {:ok, pid} = TucoTuco.Supervisor.start_link
   end
 
+  @doc """
+    Return the pid or name of the current session
+  """
   def current_session do
     {:ok, session} = :gen_server.call :tuco_tuco, :current_session
     session
   end
 
+  @doc """
+    Set the current session to a different session.
+    Will error if the specified session is not running.
+  """
   def current_session new_session do
     :gen_server.call :tuco_tuco, {:current_session, new_session}
   end
 
+  @doc """
+    Get a list of all the sessions that are running.
+  """
   def sessions do
     :gen_server.call :tuco_tuco, :sessions
   end
 
+  @doc """
+    Return the current application root url.
+  """
   def app_root do
     {:ok, app_root} = :gen_server.call :tuco_tuco, :app_root
     app_root
   end
 
+  @doc """
+    Set the application root url to a new value.
+  """
   def app_root new_root do
     {:ok, _} = :gen_server.call :tuco_tuco, {:app_root, new_root}
   end
 
+  @doc """
+    Start a new session. If the browser with the name specified is not running
+    this will start a new browser using the driver specified, and then start
+    a session on that browser.
+  """
   def start_session browser_name, session_name, driver \\ :phantomjs do
     browser_config = WebDriver.Config.new(browser: driver, name: browser_name)
     :gen_server.call :tuco_tuco, {:start_session, browser_config, session_name}
   end
 
+  @doc """
+    Stop all the browsers that are running and stop TucoTuco.
+  """
   def stop do
     WebDriver.stop_all_browsers
   end

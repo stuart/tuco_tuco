@@ -2,12 +2,19 @@ defmodule TucoTuco.Actions do
   import TucoTuco.DSL
   import TucoTuco.Finder
 
-  def click_link text_or_id do
-    find(:link, text_or_id) |> do_click
+  @doc """
+    Click a link found by id, text or label.
+  """
+  def click_link text do
+    find(:link, text) |> do_click
   end
 
-  def click_button text_or_id do
-    find(:button, text_or_id) |> do_click
+  @doc """
+    Click on a button found by id, value or label.
+    Also clicks on form submit inputs.
+  """
+  def click_button text do
+    find(:button, text) |> do_click
   end
 
   defp do_click nil do
@@ -18,6 +25,12 @@ defmodule TucoTuco.Actions do
     WebDriver.Element.click element
   end
 
+  @doc """
+    Fill in a field with the specified text.
+    Finds the field by id, name or label.
+
+    See WebDriver.Keys if you need to use non text characters.
+  """
   def fill_in field, text do
     find(:fillable_field, field) |> do_fill_in text
   end
@@ -30,6 +43,10 @@ defmodule TucoTuco.Actions do
     WebDriver.Element.value(element, text)
   end
 
+  @doc """
+    Choose a radio button.
+    Finds the button by id or label.
+  """
   def choose text do
     find(:radio, text) |> do_choose
   end
@@ -42,10 +59,18 @@ defmodule TucoTuco.Actions do
     WebDriver.Element.click element
   end
 
+  @doc """
+    Check a checkbox.
+    Finds the checkbox by id, name or label.
+  """
   def check text do
     find(:checkbox, text) |> do_check
   end
 
+  @doc """
+    Uncheck a checkbox.
+    Finds the checkbox by id, name or label.
+  """
   def uncheck text do
     find(:checkbox, text) |> do_uncheck
   end
@@ -72,10 +97,19 @@ defmodule TucoTuco.Actions do
     end
   end
 
+  @doc """
+    Select an option from a select.
+    Finds the option by it's text or id.
+  """
   def select text do
     find(:option, text) |> do_click
   end
 
+  @doc """
+    Select an option from a specified select.
+    Finds the option from it's text or id and finds the select
+    from it's id, name or label.
+  """
   def select text, from: sel do
     find(:option, text, sel) |> do_click
   end
@@ -88,11 +122,19 @@ defmodule TucoTuco.Actions do
     do_click element
   end
 
-  # WIP
+  @doc """
+    Currently not working. Do not use.
+  """
   def unselect text do
     find(:option, text) |> do_select
   end
 
+  @doc """
+    Attach a file to a file field.
+    Finds the field by name, id or label.
+
+    Filename must specify the path to a file that exists.
+  """
   def attach_file text, filename do
     if File.exists?(filename) do
       find(:file_field, text) |> WebDriver.Element.value(filename)

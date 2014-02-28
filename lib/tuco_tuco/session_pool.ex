@@ -1,6 +1,11 @@
 defmodule TucoTuco.SessionPool do
   use GenServer.Behaviour
 
+  @moduledoc """
+    The session pool is responsible for maintaining state which references
+    the underlying WebDriver sessions that are running.
+  """
+
   defrecord SessionPoolState, current_session: nil, app_root: nil
 
   def start_link do
