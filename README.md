@@ -83,7 +83,8 @@ Here is a rough guide to using TucoTuco.
 
 ### Querying
   Getting information about the page to use in assertions:
-  ```
+
+  ```elixir
     Page.has_css? "table thead tr.header"
     Page.has_xpath? "//foo/bar[@name='baz']"
     Page.has_text? "Some text from the page"
@@ -95,7 +96,7 @@ Here is a rough guide to using TucoTuco.
 ### Assertions
   TucoTuco supplies two assertions that you can use directly in tests:
 
-  ```
+  ```elixir
     assert_selector :xpath, "//foo/bar"
     refute_selector :xpath, "//baz[@class='bob']"
   ```
@@ -107,7 +108,7 @@ Here is a rough guide to using TucoTuco.
   Running Javascript is not yet supported, but is supported in the
   underlying WebDriver library. A simpler API is in the TODO list.
 
-  ```
+  ```elixir
     WebDriver.Session.execute current_session, "return arguments[0] * arguments[1];", [5,3]
   ```
 
