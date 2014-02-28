@@ -13,6 +13,7 @@ defmodule TucoTuco.Page do
     Does the page have an element matching the xpath selector?
   """
   def has_xpath? xpath do
+
     has_selector? :xpath, xpath
   end
 
@@ -95,7 +96,8 @@ defmodule TucoTuco.Page do
       * :xpath - Use [XPath](http://www.w3.org/TR/xpath/) to search for an element.
   """
   def has_selector? using, selector do
-    is_element? WebDriver.Session.element(current_session, using, selector)
+    #is_element? WebDriver.Session.element(current_session, using, selector)
+    is_element? synchronize_find current_session, using, selector
   end
 
   @doc """
