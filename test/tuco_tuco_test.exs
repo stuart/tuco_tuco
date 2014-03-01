@@ -41,4 +41,20 @@ defmodule TucoTucoTest do
     resp = TucoTuco.current_session :not_a_session
     assert resp == {:error, "Session :not_a_session is not running."}
   end
+
+  test "set use_retries" do
+    {:ok, _} = TucoTuco.use_retry true
+    assert TucoTuco.use_retry
+  end
+
+  test "set max_retries" do
+    {:ok, _} = TucoTuco.max_retries 20
+    assert TucoTuco.max_retries == 20
+  end
+
+  test "set retry delay" do
+    {:ok, _} = TucoTuco.retry_delay 20
+    assert TucoTuco.retry_delay == 20
+  end
+
 end

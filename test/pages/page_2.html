@@ -7,15 +7,24 @@
   <body>
     <h1>Page 2</h1>
     <p>Clicking the link shows text with a delay.</p>
-    <a id="link" href="#">Click</a>
+    <a id="appear" href="#">Appear</a>
     <div id="test">
     </div>
+
+    <p>Clicking this link makes text go away.</p>
+    <a id="disappear", href="#">Disappear</a>
+    <div id="magic">Magic Text</div>
   </body>
 
   <script type="text/javascript">
-    $("#link").bind('click',
-        function(e){ $("#test").delay(1000).queue(
+    $("#appear").bind('click',
+        function(e){ $("#test").delay(500).queue(
           function (next){ $(this).append("<p class=text>Text</p>"); next(); })
+      })
+
+    $("#disappear").bind('click',
+        function(e){ $("#magic").delay(500).queue(
+          function (next){ $(this).remove(); next(); })
       })
   </script>
 </html>

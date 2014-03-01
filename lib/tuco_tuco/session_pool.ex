@@ -6,7 +6,13 @@ defmodule TucoTuco.SessionPool do
     the underlying WebDriver sessions that are running.
   """
 
-  defrecord SessionPoolState, current_session: nil, app_root: nil
+  defrecord SessionPoolState,
+      current_session: nil,
+      app_root: nil,
+      use_retry: false,
+      max_retries: 20,
+      retry_delay: 50
+
 
   def start_link do
     state = SessionPoolState.new
@@ -45,6 +51,33 @@ defmodule TucoTuco.SessionPool do
 
   def handle_call :sessions, _sender, state do
     {:reply, { :ok, WebDriver.sessions }, state}
+  end
+
+  def handle_call :use_retry, _sender, state do
+    {:reply, {:ok, state.use_retry}, state}
+  end
+
+  def handle_call({:use_retry, value}, _sender, state) when is_boolean(value) do
+    state = state.use_retry(value)
+    {:reply, {:ok, state}, state}
+  end
+
+  def handle_call :max_retries, _sender, state do
+    {:reply, {:ok, state.max_retries}, state}
+  end
+
+  def handle_call({:max_retries, value}, _sender, state) when is_integer(value) and value > 0 do
+    state = state.max_retries(value)
+    {:reply, {:ok, state}, state}
+  end
+
+  def handle_call :retry_delay, _sender, state do
+    {:reply, {:ok, state.max_retries}, state}
+  end
+
+  def handle_call({:retry_delay, value}, _sender, state) when is_integer(value) and value > 0 do
+    state = state.max_retries(value)
+    {:reply, {:ok, state}, state}
   end
 
   def handle_call {:start_session, browser_config, session_name}, _sender, state do

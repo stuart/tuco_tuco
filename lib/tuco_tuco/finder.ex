@@ -150,21 +150,4 @@ defmodule TucoTuco.Finder do
   def find_all :xpath, xpath do
     WebDriver.Session.elements(current_session, :xpath, xpath)
   end
-
-  def synchronize_find session, using, selector do
-    synchronize_find  session, using, selector, 0
-  end
-
-  def synchronize_find session, using, selector, 10 do
-    false
-  end
-
-  def synchronize_find session, using, selector, time do
-    case WebDriver.Session.element(session, using, selector) do
-      nil ->
-        :timer.sleep(50)
-        synchronize_find session, using, selector, time + 1
-      element -> element
-    end
-  end
 end
