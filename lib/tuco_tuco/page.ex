@@ -1,33 +1,50 @@
 defmodule TucoTuco.Page do
   import TucoTuco.DSL
   import TucoTuco.Finder
+  import TucoTuco.Retry
 
   @doc """
     Does the page have an element matching the specified css selector?
   """
   def has_css? css do
-    has_selector? :css, css
+    retry fn -> has_selector? :css, css end
+  end
+
+  def has_no_css? css do
+    retry fn -> !has_selector?(:css, css) end
   end
 
   @doc """
     Does the page have an element matching the xpath selector?
   """
   def has_xpath? xpath do
-    has_selector? :xpath, xpath
+    retry fn -> has_selector? :xpath, xpath end
+  end
+
+  def has_no_xpath? xpath do
+    retry fn -> !has_selector? :xpath, xpath end
   end
 
   @doc """
     Does the page have a text field or text area with the id, name or label?
   """
   def has_field? text do
-    is_element? find(:fillable_field, text)
+    retry fn -> is_element? find(:fillable_field, text) end
+  end
+
+  def has_no_field? text do
+    retry fn -> is_not_element? find(:fillable_field, text) end
   end
 
   @doc """
     Does the page have a link containing the specified text, id or name.
   """
   def has_link? text do
-    is_element? find(:link, text)
+    retry fn -> is_element? find(:link, text) end
+  end
+
+  def has_no_link? text do
+    retry fn -> is_not_element? find(:link, text) end
   end
 
   @doc """
@@ -35,7 +52,11 @@ defmodule TucoTuco.Page do
     Finds by text, id or name.
   """
   def has_button? text do
-    is_element? find(:button, text)
+    retry fn-> is_element? find(:button, text) end
+  end
+
+  def has_no_button? text do
+    retry fn -> is_not_element? find(:button, text) end
   end
 
   @doc """
@@ -44,10 +65,22 @@ defmodule TucoTuco.Page do
     Finds by label or id.
   """
   def has_checked_field? text do
-    element = find(:checkbox_or_radio, text)
-    case is_element?(element) do
-      true -> WebDriver.Element.selected? element
-      false -> false
+    retry fn ->
+      element = find(:checkbox_or_radio, text)
+      case is_element?(element) do
+        true -> WebDriver.Element.selected? element
+        false -> false
+      end
+    end
+  end
+
+  def has_no_checked_field? text do
+    retry fn ->
+      element = find(:checkbox_or_radio, text)
+      case is_element?(element) do
+        true -> !WebDriver.Element.selected?(element)
+        false -> true
+      end
     end
   end
 
@@ -57,10 +90,22 @@ defmodule TucoTuco.Page do
     Finds by label or id.
   """
   def has_unchecked_field? text do
-    element = find(:checkbox_or_radio, text)
-    case is_element?(element) do
-      true -> !WebDriver.Element.selected? element
-      false -> false
+    retry fn ->
+      element = find(:checkbox_or_radio, text)
+      case is_element?(element) do
+        true -> !WebDriver.Element.selected? element
+        false -> false
+      end
+    end
+  end
+
+  def has_no_unchecked_field? text do
+    retry fn ->
+      element = find(:checkbox_or_radio, text)
+      case is_element?(element) do
+        true -> WebDriver.Element.selected? element
+        false -> true
+      end
     end
   end
 
@@ -68,14 +113,22 @@ defmodule TucoTuco.Page do
     Does the page have a select with the given id, name or label.
   """
   def has_select? text do
-    is_element? find(:select, text)
+    retry fn -> is_element? find(:select, text) end
+  end
+
+  def has_no_select? text do
+    retry fn -> is_element? find(:select, text) end
   end
 
   @doc """
     Does the page have a table with the given caption or id?
   """
   def has_table? text do
-    is_element? find(:table, text)
+    retry fn -> is_element? find(:table, text) end
+  end
+
+  def has_no_table? text do
+    retry fn -> is_not_element? find(:table, text) end
   end
 
   @doc """
@@ -95,17 +148,31 @@ defmodule TucoTuco.Page do
       * :xpath - Use [XPath](http://www.w3.org/TR/xpath/) to search for an element.
   """
   def has_selector? using, selector do
-    is_element? WebDriver.Session.element(current_session, using, selector)
+    retry fn -> is_element? WebDriver.Session.element(current_session, using, selector) end
+  end
+
+  def has_no_selector? using, selector do
+    retry fn -> is_not_element? WebDriver.Session.element(current_session, using, selector) end
   end
 
   @doc """
     Does the page contain the text specified?
   """
   def has_text? text do
-    is_element? find(:xpath, "//*[contains(.,'#{text}')]")
+    retry fn -> is_element? find(:xpath, "//*[contains(.,'#{text}')]") end
+  end
+
+  def has_no_text? text do
+    retry fn -> is_not_element? find(:xpath, "//*[contains(.,'#{text}')]") end
   end
 
   defp is_element? element do
     is_record(element, WebDriver.Element.Reference)
   end
+
+
+  defp is_not_element? element do
+    !is_element? element
+  end
+
 end

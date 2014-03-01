@@ -61,6 +61,57 @@ defmodule TucoTuco do
   end
 
   @doc """
+    Is the application set to use retries?
+  """
+  def use_retry do
+    {:ok, use_retry} = :gen_server.call :tuco_tuco, :use_retry
+    use_retry
+  end
+
+  @doc """
+    Set the use_retry option. When this is set the Page methods will retry
+    a number of times. This is for situations where javascript may alter page
+    contents and you need to wait for changes to occur.
+
+    Setting this will cause tests to take a bit longer to run.
+  """
+  def use_retry value do
+    {:ok, _} = :gen_server.call :tuco_tuco, {:use_retry, value}
+  end
+
+  @doc """
+    Get the maximum number of retries setting for the application
+   """
+  def max_retries do
+    {:ok, max_retries} = :gen_server.call :tuco_tuco, :max_retries
+    max_retries
+  end
+
+  @doc """
+    Set the maximum number of retries for the application. This defaults to
+    20. May be any integer > 0.
+  """
+  def max_retries value do
+    {:ok, _} = :gen_server.call :tuco_tuco, {:max_retries, value}
+  end
+
+  @doc """
+    Get the application's retry delay setting in milliseconds.
+    This is the amount of time it sleeps before trying an operation again.
+  """
+  def retry_delay do
+    {:ok, retry_delay} = :gen_server.call :tuco_tuco, :retry_delay
+    retry_delay
+  end
+
+  @doc """
+    Set the application's retry delay in milliseconds. This defaults to 50ms.
+  """
+  def retry_delay ms do
+    {:ok, _} = :gen_server.call :tuco_tuco, {:retry_delay, ms}
+  end
+
+  @doc """
     Start a new session. If the browser with the name specified is not running
     this will start a new browser using the driver specified, and then start
     a session on that browser.

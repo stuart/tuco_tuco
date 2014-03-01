@@ -2,20 +2,29 @@
 <html>
   <head>
     <title>Page 2</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   </head>
   <body>
     <h1>Page 2</h1>
-    <form action="page_3.html", method="get">
-      <label id="l1" for="123">Some text</label>
-      <input type="text" name="some_text" id="123" value="Text"/>
-      <select>
-        <option value="dave" selected>Dave</option>
-        <option value="stu">Stu</option>
-        <option value="jose">Jose</option>
-      </select>
-      <textarea name="other_text" id="textarea1" rows="4" cols="50">TextArea</textarea>
-      <input id="s1" type="submit", value="Submit"/>
-      <input id="s2" type="submit", value="Disabled", disabled=true/>
-    </form>
+    <p>Clicking the link shows text with a delay.</p>
+    <a id="appear" href="#">Appear</a>
+    <div id="test">
+    </div>
+
+    <p>Clicking this link makes text go away.</p>
+    <a id="disappear", href="#">Disappear</a>
+    <div id="magic">Magic Text</div>
   </body>
+
+  <script type="text/javascript">
+    $("#appear").bind('click',
+        function(e){ $("#test").delay(500).queue(
+          function (next){ $(this).append("<p class=text>Text</p>"); next(); })
+      })
+
+    $("#disappear").bind('click',
+        function(e){ $("#magic").delay(500).queue(
+          function (next){ $(this).remove(); next(); })
+      })
+  </script>
 </html>

@@ -28,40 +28,40 @@ defmodule TucoTucoPageTest do
     assert Page.has_css? "select#sel1"
   end
 
-  test "has_css? fails " do
-    refute Page.has_css? "select#foo"
+  test "has_no_css?" do
+    assert Page.has_no_css? "select#foo"
   end
 
   test "has_xpath?" do
     assert Page.has_xpath? "/html/body/h1[.='Test Index']"
   end
 
-  test "has_xpath? fails" do
-    refute Page.has_xpath? "/html/body/h1[.='Foo Bar']"
+  test "has_no_xpath?" do
+    assert Page.has_no_xpath? "/html/body/h1[.='Foo Bar']"
   end
 
   test "has_field?" do
     assert Page.has_field? "Name"
   end
 
-  test "has_field? fails" do
-    refute Page.has_field? "Address"
+  test "has_no_field?" do
+    assert Page.has_no_field? "Address"
   end
 
   test "has_link?" do
     assert Page.has_link? "Page 1"
   end
 
-  test "has_link? fails" do
-    refute Page.has_link? "Thingy"
+  test "has_no_link?" do
+    assert Page.has_no_link? "Thingy"
   end
 
   test "has_button?" do
     assert Page.has_button? "Button"
   end
 
-  test "has_button fails" do
-    refute Page.has_button? "Name"
+  test "has_no_button" do
+    assert Page.has_no_button? "Name"
   end
 
   test "has_checked_field?" do
@@ -70,8 +70,8 @@ defmodule TucoTucoPageTest do
     refute Page.has_checked_field? "Female"
   end
 
-  test "has_checked_field? with nonexistent field" do
-    refute Page.has_checked_field? "Foo"
+  test "has_no_checked_field? with nonexistent field" do
+    assert Page.has_no_checked_field? "Foo"
   end
 
   test "has_select?" do
@@ -92,12 +92,16 @@ defmodule TucoTucoPageTest do
     assert Page.has_table? "table1"
   end
 
+  test "has_no_table" do
+    assert Page.has_no_table? "table42"
+  end
+
   test "has text" do
     assert Page.has_text? "A test page for TucoTuco."
   end
 
-  test "has text fails" do
-    refute Page.has_text? "A test page for Capybara"
+  test "has_no_text" do
+    assert Page.has_no_text? "A test page for Capybara"
   end
 
   test "partial text match" do
