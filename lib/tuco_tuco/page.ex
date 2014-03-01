@@ -3,6 +3,17 @@ defmodule TucoTuco.Page do
   import TucoTuco.Finder
   import TucoTuco.Retry
 
+  @moduledoc """
+    This module contains all the functions associated with querying the
+    state of the current page.
+
+    You use them in tests like this:
+
+    ```
+      assert Page.has_css? "table#fruit tr.first"
+    ```
+  """
+
   @doc """
     Does the page have an element matching the specified css selector?
   """

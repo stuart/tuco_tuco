@@ -29,13 +29,42 @@
         <div id="moduledoc" class="docstring">
           <p>TucoTuco is a web testing suite for Elixir applications.
   To use it make sure the TucoTuco application is running by specifying it
-  in your config.ex or doing:</p>
+  in your mix.exs file or doing:</p>
 
 <pre><code>:application.start :tuco_tuco
 </code></pre>
 
-<p>To use the methods it exposes in a test case just add this line at the top:
-   <code>use TucoTuco.DSL</code></p>
+<p>To use the methods it exposes in an ExUnit.Case just add this line at the top:</p>
+
+<pre><code> use TucoTuco.DSL
+</code></pre>
+
+<p>Example Test Case:</p>
+
+<pre><code>  defmodule MyTest do
+    use ExUnit.Case
+    use TucoTuco.DSL
+
+    setup_all do
+      {:ok, _} = TucoTuco.start_session :test_browser, :test_session, :phantomjs
+      TucoTuco.app_root &quot;http://localhost:3000&quot;
+      :ok
+    end
+
+    teardown_all do
+      TucoTuco.stop
+    end
+
+    test &quot;logging in&quot; do
+      visit &quot;/login&quot;
+      fill_in &quot;Login&quot;, &quot;Stuart&quot;
+      fill_in &quot;Password&quot;, &quot;my_secret_password&quot;
+      click_button &quot;Log In&quot;
+      assert current_path = &quot;/account&quot;
+      assert Page.has_text? &quot;Successfully logged in.&quot;
+    end
+  end
+</code></pre>
 
         </div>
       
@@ -77,6 +106,36 @@
   
 </tr>
 <tr>
+  <td class="summary_signature"><a href="#max_retries/0">max_retries()</a></td>
+  
+    <td class="summary_synopsis"><p>Get the maximum number of retries setting for the application</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#max_retries/1">max_retries(value)</a></td>
+  
+    <td class="summary_synopsis"><p>Set the maximum number of retries for the application. This defaults to
+  20. May be any integer &gt; 0.</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#retry_delay/0">retry_delay()</a></td>
+  
+    <td class="summary_synopsis"><p>Get the application&#39;s retry delay setting in milliseconds.
+  This is the amount of time it sleeps before trying an operation again.</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#retry_delay/1">retry_delay(ms)</a></td>
+  
+    <td class="summary_synopsis"><p>Set the application&#39;s retry delay in milliseconds. This defaults to 50ms.</p>
+</td>
+  
+</tr>
+<tr>
   <td class="summary_signature"><a href="#sessions/0">sessions()</a></td>
   
     <td class="summary_synopsis"><p>Get a list of all the sessions that are running.</p>
@@ -103,6 +162,22 @@
   <td class="summary_signature"><a href="#stop/0">stop()</a></td>
   
     <td class="summary_synopsis"><p>Stop all the browsers that are running and stop TucoTuco.</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#use_retry/0">use_retry()</a></td>
+  
+    <td class="summary_synopsis"><p>Is the application set to use retries?</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#use_retry/1">use_retry(value)</a></td>
+  
+    <td class="summary_synopsis"><p>Set the use_retry option. When this is set the Page methods will retry
+  a number of times. This is for situations where javascript may alter page
+  contents and you need to wait for changes to occur.</p>
 </td>
   
 </tr>
@@ -157,6 +232,44 @@
   
 </div>
 <div class="detail">
+  <p class="signature" id="max_retries/0">
+    <strong>max_retries()</strong>
+  </p>
+  
+  <div class="docstring"><p>Get the maximum number of retries setting for the application</p>
+</div>
+  
+</div>
+<div class="detail">
+  <p class="signature" id="max_retries/1">
+    <strong>max_retries(value)</strong>
+  </p>
+  
+  <div class="docstring"><p>Set the maximum number of retries for the application. This defaults to
+  20. May be any integer &gt; 0.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <p class="signature" id="retry_delay/0">
+    <strong>retry_delay()</strong>
+  </p>
+  
+  <div class="docstring"><p>Get the application&#39;s retry delay setting in milliseconds.
+  This is the amount of time it sleeps before trying an operation again.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <p class="signature" id="retry_delay/1">
+    <strong>retry_delay(ms)</strong>
+  </p>
+  
+  <div class="docstring"><p>Set the application&#39;s retry delay in milliseconds. This defaults to 50ms.</p>
+</div>
+  
+</div>
+<div class="detail">
   <p class="signature" id="sessions/0">
     <strong>sessions()</strong>
   </p>
@@ -191,6 +304,28 @@
   </p>
   
   <div class="docstring"><p>Stop all the browsers that are running and stop TucoTuco.</p>
+</div>
+  
+</div>
+<div class="detail">
+  <p class="signature" id="use_retry/0">
+    <strong>use_retry()</strong>
+  </p>
+  
+  <div class="docstring"><p>Is the application set to use retries?</p>
+</div>
+  
+</div>
+<div class="detail">
+  <p class="signature" id="use_retry/1">
+    <strong>use_retry(value)</strong>
+  </p>
+  
+  <div class="docstring"><p>Set the use_retry option. When this is set the Page methods will retry
+  a number of times. This is for situations where javascript may alter page
+  contents and you need to wait for changes to occur.</p>
+
+<p>Setting this will cause tests to take a bit longer to run.</p>
 </div>
   
 </div>

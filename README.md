@@ -113,6 +113,31 @@ Here is a rough guide to using TucoTuco.
     WebDriver.Session.execute current_session, "return arguments[0] * arguments[1];", [5,3]
   ```
 
+### Retrying
+  When you are testing applications that have Javascript modifying the page
+  it is possible that elements will not be available when you want them because
+  the browser script takes some time to run.
+
+  To alleviate this TucoTuco has retry settings. When retry is turned on all the
+  Page.has_foo? functions will retry for a set number of times before failing.
+
+  You can also use the retry function yourself like this:
+
+  ```elixir
+    TucoTuco.Retry.retry fn -> my_function(args) end
+  ```
+
+  Changing retry settings:
+
+  ```elixir
+    # Set retries on
+    TucoTuco.use_retries true
+    # Set the number of retries to do before permanently failing.
+    TucoTuco.max_retries 10
+    # Set the delay between retries in milliseconds.
+    TucoTuco.retry_delay 20
+  ```
+
 ### Multiple Sessions
   You can run multiple sessions on different browser or on the same browser.
   To start a session use:

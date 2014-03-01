@@ -4,12 +4,39 @@ defmodule TucoTuco do
   @moduledoc """
     TucoTuco is a web testing suite for Elixir applications.
     To use it make sure the TucoTuco application is running by specifying it
-    in your config.ex or doing:
+    in your mix.exs file or doing:
 
       :application.start :tuco_tuco
 
-    To use the methods it exposes in a test case just add this line at the top:
-     ```use TucoTuco.DSL```
+    To use the methods it exposes in an ExUnit.Case just add this line at the top:
+
+       use TucoTuco.DSL
+
+    Example Test Case:
+
+        defmodule MyTest do
+          use ExUnit.Case
+          use TucoTuco.DSL
+
+          setup_all do
+            {:ok, _} = TucoTuco.start_session :test_browser, :test_session, :phantomjs
+            TucoTuco.app_root "http://localhost:3000"
+            :ok
+          end
+
+          teardown_all do
+            TucoTuco.stop
+          end
+
+          test "logging in" do
+            visit "/login"
+            fill_in "Login", "Stuart"
+            fill_in "Password", "my_secret_password"
+            click_button "Log In"
+            assert current_path = "/account"
+            assert Page.has_text? "Successfully logged in."
+          end
+        end
 
   """
 
@@ -115,6 +142,12 @@ defmodule TucoTuco do
     Start a new session. If the browser with the name specified is not running
     this will start a new browser using the driver specified, and then start
     a session on that browser.
+
+    Driver can be one of:
+     * :phantomjs
+     * :firefox
+     * :chrome
+
   """
   def start_session browser_name, session_name, driver \\ :phantomjs do
     browser_config = WebDriver.Config.new(browser: driver, name: browser_name)
