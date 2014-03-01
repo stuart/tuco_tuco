@@ -18,22 +18,22 @@ defmodule TucoTuco.Page do
     Does the page have an element matching the specified css selector?
   """
   def has_css? css do
-    retry fn -> has_selector? :css, css end
+    has_selector? :css, css
   end
 
   def has_no_css? css do
-    retry fn -> !has_selector?(:css, css) end
+    has_no_selector?(:css, css)
   end
 
   @doc """
     Does the page have an element matching the xpath selector?
   """
   def has_xpath? xpath do
-    retry fn -> has_selector? :xpath, xpath end
+    has_selector? :xpath, xpath
   end
 
   def has_no_xpath? xpath do
-    retry fn -> !has_selector? :xpath, xpath end
+    has_no_selector? :xpath, xpath
   end
 
   @doc """
