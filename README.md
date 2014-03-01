@@ -1,4 +1,5 @@
 # TucoTuco
+[![Build Status](https://travis-ci.org/stuart/Tuco-Tuco.png?branch=master)](https://travis-ci.org/stuart/Tuco-Tuco)
 
 Testing for Elixir web applications.
 
