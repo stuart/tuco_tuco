@@ -119,11 +119,15 @@ Here is a rough guide to using TucoTuco.
   the browser script takes some time to run.
 
   To alleviate this TucoTuco has retry settings. When retry is turned on all the
-  Page.has_foo? functions will retry for a set number of times before failing.
+  Page.has_foo? and action functions will retry for a set number of times before failing.
 
   You can also use the retry function yourself like this:
 
   ```elixir
+    # Find elements
+    TucoTuco.Finder.find using, selector
+
+    # Any function
     TucoTuco.Retry.retry fn -> my_function(args) end
   ```
 
