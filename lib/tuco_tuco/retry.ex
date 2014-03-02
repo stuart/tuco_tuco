@@ -1,10 +1,10 @@
 defmodule TucoTuco.Retry do
   @doc """
-    Retry a function until either it returns true or the number of
-    retries greater than TucoTuco.max_retries.
+    Retry a function until either it returns true, {:ok, _} or an element,
+    or the number of retries greater than TucoTuco.max_retries.
 
-    Delays between each retry for TucoTuco.retry_delay milliseconds.
-    It does not use retries if TucoTuco.use_retry is false, which is the
+    Delays between each retry for ```TucoTuco.retry\_delay``` milliseconds.
+    It does not use retries if ```TucoTuco.use\_retry``` is false, which is the
     default.
   """
   def retry(fun) do
@@ -22,7 +22,7 @@ defmodule TucoTuco.Retry do
     end
   end
 
-  def retry fun, count do
+  defp retry fun, count do
     if count >= TucoTuco.max_retries do
       false
     else
