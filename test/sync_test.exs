@@ -37,14 +37,55 @@ defmodule TucoTucoSynchTest do
 
   test "retry returns true if function eventually is true" do
     start = :erlang.now
-    fun = fn -> :timer.now_diff(:erlang.now, start) > 1000 end
+    fun = fn -> :timer.now_diff(:erlang.now, start) > 300000 end
     assert TucoTuco.Retry.retry fun
   end
 
   test "retry returns false if function takes too long" do
     start = :erlang.now
-    fun = fn -> :timer.now_diff(:erlang.now, start) > 3000 end
-    assert TucoTuco.Retry.retry fun
+    fun = fn -> :timer.now_diff(:erlang.now, start) > 2000000 end
+    refute TucoTuco.Retry.retry fun
+  end
+
+  test "retry returns nil if function is always nil" do
+    fun = fn -> nil end
+    assert TucoTuco.Retry.retry(fun) == nil
+  end
+
+  test "retry returns an element if function returns an element" do
+    fun = fn -> WebDriver.Element.Reference.new end
+    assert WebDriver.Element.Reference.new  == TucoTuco.Retry.retry(fun)
+  end
+
+  def element_test_fun start do
+    if :timer.now_diff(:erlang.now, start) > 300000 do
+      WebDriver.Element.Reference.new
+    else
+      nil
+    end
+  end
+
+  test "retry returns an element if function eventually returns one" do
+    start = :erlang.now
+    assert WebDriver.Element.Reference.new  == TucoTuco.Retry.retry(fn -> element_test_fun(start) end )
+  end
+
+  def response_test_fun start do
+    if :timer.now_diff(:erlang.now, start) > 300000 do
+      {:ok, "response"}
+    else
+      {:error, "message"}
+    end
+  end
+
+  test "retry returns a response tuple if function eventually returns one" do
+    start = :erlang.now
+    assert {:ok, "response"} == TucoTuco.Retry.retry(fn -> response_test_fun(start) end )
+  end
+
+  test "retry returns an {:error, message} tuple if the function always returns one" do
+    fun = fn -> {:error, "message"} end
+    assert TucoTuco.Retry.retry(fun) == {:error, "message"}
   end
 
   test "has_css? with an element that is slow to appear" do
