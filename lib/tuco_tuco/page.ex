@@ -177,12 +177,11 @@ defmodule TucoTuco.Page do
     retry fn -> is_not_element? find(:xpath, "//*[contains(.,'#{text}')]") end
   end
 
-  defp is_element? element do
+  def is_element? element do
     is_record(element, WebDriver.Element.Reference)
   end
 
-
-  defp is_not_element? element do
+  def is_not_element? element do
     !is_element? element
   end
 

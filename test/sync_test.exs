@@ -47,13 +47,31 @@ defmodule TucoTucoSynchTest do
     assert TucoTuco.Retry.retry fun
   end
 
-  test "finding an element that is slow to appear" do
+  test "has_css? with an element that is slow to appear" do
     click_link "Appear"
     assert Page.has_css?("p.text")
   end
 
-  test "not finding an element that is slow to disappear" do
+  test "has_css? an element that is slow to disappear" do
     click_link "Disappear"
     assert Page.has_no_css?("div#magic")
+  end
+
+  test "find an element that is slow to appear" do
+    click_link "Appear"
+    assert Page.is_element?(TucoTuco.Finder.find_with_retry :css, "p.text")
+  end
+
+  test "find an element that never appears" do
+    assert nil = TucoTuco.Finder.find_with_retry :css, "p.text"
+  end
+
+  test "click on an element that is slow to appear" do
+    click_link "Appear"
+    assert {:ok, _} = click_link "foo"
+  end
+
+  test "click on element that never appears" do
+    assert {:error, "Nothing to click"} = click_link "foo"
   end
 end
