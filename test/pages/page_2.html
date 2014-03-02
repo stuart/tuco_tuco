@@ -19,7 +19,7 @@
   <script type="text/javascript">
     $("#appear").bind('click',
         function(e){ $("#test").delay(500).queue(
-          function (next){ $(this).append("<p class=text>Text</p>"); next(); })
+          function (next){ $(this).append("<p class=text>Text</p><a id='foo' href='#'>Foo</a>"); next(); })
       })
 
     $("#disappear").bind('click',

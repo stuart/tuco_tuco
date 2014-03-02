@@ -16,6 +16,13 @@ defmodule TucoTuco.Finder do
   end
 
   @doc """
+    Find an element by css selector
+  """
+  def find :css, css do
+    WebDriver.Session.element(current_session, :css, css)
+  end
+
+  @doc """
     Find a link by id or link text.
   """
   def find :link, term do
@@ -142,6 +149,17 @@ defmodule TucoTuco.Finder do
 
     find :xpath, "//select[@id='#{sel}' or @name='#{sel}']\
                       /option[@value='#{term}' or .=normalize-space('#{term}')]"
+  end
+
+  @doc """
+    Perform a find operation with retries if they are enabled.
+  """
+  def find_with_retry using, term do
+    TucoTuco.Retry.retry fn -> find using, term end
+  end
+
+  def find_with_retry using, term, options do
+    TucoTuco.Retry.retry fn -> find using, term, options end
   end
 
   @doc """

@@ -1,12 +1,13 @@
 defmodule TucoTuco.Actions do
   import TucoTuco.DSL
   import TucoTuco.Finder
+  import TucoTuco.Retry
 
   @doc """
     Click a link found by id, text or label.
   """
   def click_link text do
-    find(:link, text) |> do_click
+    find_with_retry(:link, text) |> do_click
   end
 
   @doc """
@@ -14,7 +15,7 @@ defmodule TucoTuco.Actions do
     Also clicks on form submit inputs.
   """
   def click_button text do
-    find(:button, text) |> do_click
+    find_with_retry(:button, text) |> do_click
   end
 
   defp do_click nil do
@@ -32,7 +33,7 @@ defmodule TucoTuco.Actions do
     See WebDriver.Keys if you need to use non text characters.
   """
   def fill_in field, text do
-    find(:fillable_field, field) |> do_fill_in text
+    find_with_retry(:fillable_field, field) |> do_fill_in text
   end
 
   defp do_fill_in nil, text do
@@ -48,7 +49,7 @@ defmodule TucoTuco.Actions do
     Finds the button by id or label.
   """
   def choose text do
-    find(:radio, text) |> do_choose
+    find_with_retry(:radio, text) |> do_choose
   end
 
   defp do_choose nil do
@@ -64,7 +65,7 @@ defmodule TucoTuco.Actions do
     Finds the checkbox by id, name or label.
   """
   def check text do
-    find(:checkbox, text) |> do_check
+    find_with_retry(:checkbox, text) |> do_check
   end
 
   @doc """
@@ -72,7 +73,7 @@ defmodule TucoTuco.Actions do
     Finds the checkbox by id, name or label.
   """
   def uncheck text do
-    find(:checkbox, text) |> do_uncheck
+    find_with_retry(:checkbox, text) |> do_uncheck
   end
 
   defp do_check nil do
@@ -102,7 +103,7 @@ defmodule TucoTuco.Actions do
     Finds the option by it's text or id.
   """
   def select text do
-    find(:option, text) |> do_click
+    find_with_retry(:option, text) |> do_click
   end
 
   @doc """
@@ -111,7 +112,7 @@ defmodule TucoTuco.Actions do
     from it's id, name or label.
   """
   def select text, from: sel do
-    find(:option, text, sel) |> do_click
+    find_with_retry(:option, text, sel) |> do_click
   end
 
   defp do_select nil do
@@ -126,7 +127,7 @@ defmodule TucoTuco.Actions do
     Currently not working. Do not use.
   """
   def unselect text do
-    find(:option, text) |> do_select
+    find_with_retry(:option, text) |> do_select
   end
 
   @doc """
@@ -137,9 +138,9 @@ defmodule TucoTuco.Actions do
   """
   def attach_file text, filename do
     if File.exists?(filename) do
-      find(:file_field, text) |> WebDriver.Element.value(filename)
+      find_with_retry(:file_field, text) |> WebDriver.Element.value(filename)
     else
-      {:error, "File not found"}
+      {:error, "File not found: #{filename}"}
     end
   end
 end
