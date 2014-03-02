@@ -28,7 +28,7 @@ defmodule TucoTuco.Mixfile do
   end
 
   defp test_deps do
-    [{:mock,               github: "jjh42/mock"}]
+    []
   end
 
   defp dev_deps do

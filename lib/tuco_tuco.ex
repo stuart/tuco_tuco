@@ -46,7 +46,7 @@ defmodule TucoTuco do
     Start the TucoTuco application.
   """
   def start(_type, _args) do
-    {:ok, pid} = TucoTuco.Supervisor.start_link
+    {:ok, _pid} = TucoTuco.Supervisor.start_link
   end
 
   @doc """

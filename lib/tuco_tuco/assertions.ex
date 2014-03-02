@@ -1,5 +1,4 @@
 defmodule TucoTuco.Assertions do
-  import TucoTuco.DSL
   alias TucoTuco.Page, as: Page
 
   require ExUnit.Assertions

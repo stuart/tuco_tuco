@@ -103,7 +103,30 @@ Here is a rough guide to using TucoTuco.
   ```
 
 ### Elements
-  To come. Manipulation of page elements.
+  The following functions for manipulating elements are imported from
+  WebDriver, they all take a WebDriver.Element.Reference record as the
+  first argument. Luckily that is exactly what all the finders return:
+
+  ```elixir
+    Element.attribute reference, :a_html_attribute
+    Element.clear reference
+    Element.click reference
+    Element.css reference, "some-css-property-name"
+    Element.displayed? reference
+    Element.enabled? reference
+    Element.equals? reference, other_reference
+    Element.location? reference
+    Element.location_in_view? reference
+    Element.name reference
+    Element.selected? reference
+    Element.size reference
+    Element.submit reference
+    Element.text reference
+    Element.value reference, "value to set"
+  ```
+
+  For more detailed docs on the Element functions see
+  [WebDriver.Element](http://stuart.github.io/elixir-webdriver/WebDriver.Element.html).
 
 ### Javascript
   Running Javascript is not yet supported, but is supported in the

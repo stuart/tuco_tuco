@@ -1,7 +1,5 @@
 defmodule TucoTuco.Actions do
-  import TucoTuco.DSL
   import TucoTuco.Finder
-  import TucoTuco.Retry
 
   @doc """
     Click a link found by id, text or label.
@@ -36,7 +34,7 @@ defmodule TucoTuco.Actions do
     find_with_retry(:fillable_field, field) |> do_fill_in text
   end
 
-  defp do_fill_in nil, text do
+  defp do_fill_in nil, _text do
     {:error, "No field found with id, name or label specified"}
   end
 

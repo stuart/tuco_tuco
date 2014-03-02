@@ -1,11 +1,13 @@
 defmodule TucoTuco.DSL do
 
-  defmacro __using__(options) do
+  defmacro __using__(_options) do
     quote do
       import unquote(__MODULE__)
       import TucoTuco.Actions
       import TucoTuco.Assertions
       alias TucoTuco.Page, as: Page
+      alias WebDriver.Element, as: Element
+      alias TucoTuco.Finder, as: Finder
       :ok
     end
   end
