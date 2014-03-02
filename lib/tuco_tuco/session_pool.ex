@@ -10,7 +10,7 @@ defmodule TucoTuco.SessionPool do
       current_session: nil,
       app_root: nil,
       use_retry: false,
-      max_retries: 20,
+      max_retry_time: 2000,
       retry_delay: 50
 
 
@@ -62,21 +62,21 @@ defmodule TucoTuco.SessionPool do
     {:reply, {:ok, state}, state}
   end
 
-  def handle_call :max_retries, _sender, state do
-    {:reply, {:ok, state.max_retries}, state}
+  def handle_call :max_retry_time, _sender, state do
+    {:reply, {:ok, state.max_retry_time}, state}
   end
 
-  def handle_call({:max_retries, value}, _sender, state) when is_integer(value) and value > 0 do
-    state = state.max_retries(value)
+  def handle_call({:max_retry_time, value}, _sender, state) when is_integer(value) and value > 0 do
+    state = state.max_retry_time(value)
     {:reply, {:ok, state}, state}
   end
 
   def handle_call :retry_delay, _sender, state do
-    {:reply, {:ok, state.max_retries}, state}
+    {:reply, {:ok, state.max_retry_time}, state}
   end
 
   def handle_call({:retry_delay, value}, _sender, state) when is_integer(value) and value > 0 do
-    state = state.max_retries(value)
+    state = state.max_retry_time(value)
     {:reply, {:ok, state}, state}
   end
 

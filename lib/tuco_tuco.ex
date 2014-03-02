@@ -109,17 +109,17 @@ defmodule TucoTuco do
   @doc """
     Get the maximum number of retries setting for the application
    """
-  def max_retries do
-    {:ok, max_retries} = :gen_server.call :tuco_tuco, :max_retries
-    max_retries
+  def max_retry_time do
+    {:ok, max_retry_time} = :gen_server.call :tuco_tuco, :max_retry_time
+    max_retry_time
   end
 
   @doc """
     Set the maximum number of retries for the application. This defaults to
     20. May be any integer > 0.
   """
-  def max_retries value do
-    {:ok, _} = :gen_server.call :tuco_tuco, {:max_retries, value}
+  def max_retry_time value do
+    {:ok, _} = :gen_server.call :tuco_tuco, {:max_retry_time, value}
   end
 
   @doc """

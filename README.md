@@ -159,8 +159,8 @@ Here is a rough guide to using TucoTuco.
   ```elixir
     # Set retries on
     TucoTuco.use_retries true
-    # Set the number of retries to do before permanently failing.
-    TucoTuco.max_retries 10
+    # Set the maximum retry time in milliseconds.
+    TucoTuco.max_retry_time 1000
     # Set the delay between retries in milliseconds.
     TucoTuco.retry_delay 20
   ```
@@ -218,3 +218,11 @@ Example Session from console:
   "/getting_started/1.html"
   iex(17)>
 ```
+
+###Changelog
+
+2014-03-02
+  * 0.2.1
+  * Element functions from WebDriver
+  * Retries
+

@@ -43,7 +43,7 @@ defmodule TucoTucoSynchTest do
 
   test "retry returns false if function takes too long" do
     start = :erlang.now
-    fun = fn -> :timer.now_diff(:erlang.now, start) > 2000000 end
+    fun = fn -> :timer.now_diff(:erlang.now, start) > 3000000 end
     refute TucoTuco.Retry.retry fun
   end
 

@@ -1,7 +1,7 @@
 defmodule TucoTuco.Retry do
   @doc """
     Retry a function until either it returns true, {:ok, _} or an element,
-    or the number of retries greater than TucoTuco.max_retries.
+    or the number of retries greater than TucoTuco.max_retry_time.
 
     Delays between each retry for ```TucoTuco.retry\_delay``` milliseconds.
     It does not use retries if ```TucoTuco.use\_retry``` is false, which is the
@@ -10,9 +10,9 @@ defmodule TucoTuco.Retry do
   def retry fun do
     if TucoTuco.use_retry do
       case fun.() do
-        false       -> retry fun, TucoTuco.max_retries
-        nil         -> retry fun, TucoTuco.max_retries
-        {:error, _} -> retry fun, TucoTuco.max_retries
+        false       -> retry fun, :erlang.now #TucoTuco.max_retry_time
+        nil         -> retry fun, :erlang.now #TucoTuco.max_retry_time
+        {:error, _} -> retry fun, :erlang.now #TucoTuco.max_retry_time
         true        -> true
         {:ok, response} -> {:ok, response}
         element     -> element
@@ -26,19 +26,22 @@ defmodule TucoTuco.Retry do
     fun.()
   end
 
-  defp retry fun, count do
-    IO.puts count
-    case fun.() do
-      false       ->
-         :timer.sleep(TucoTuco.retry_delay)
-         retry fun, count - 1
-      nil         ->
-        :timer.sleep(TucoTuco.retry_delay)
-        retry fun, count - 1
-      {:error, _} ->
-        :timer.sleep(TucoTuco.retry_delay)
-        retry fun, count - 1
-      something -> something
+  defp retry fun, start_time do
+    if :timer.now_diff(:erlang.now, start_time) > (TucoTuco.max_retry_time * 1000) do
+      fun.()
+    else
+      case fun.() do
+        false ->
+           :timer.sleep(TucoTuco.retry_delay)
+           retry fun, start_time
+        nil ->
+          :timer.sleep(TucoTuco.retry_delay)
+          retry fun, start_time
+        {:error, _} ->
+          :timer.sleep(TucoTuco.retry_delay)
+          retry fun, start_time
+        something -> something
+       end
      end
   end
 end

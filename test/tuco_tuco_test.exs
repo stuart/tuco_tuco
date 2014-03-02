@@ -47,9 +47,9 @@ defmodule TucoTucoTest do
     assert TucoTuco.use_retry
   end
 
-  test "set max_retries" do
-    {:ok, _} = TucoTuco.max_retries 20
-    assert TucoTuco.max_retries == 20
+  test "set max_retry_time" do
+    {:ok, _} = TucoTuco.max_retry_time 20
+    assert TucoTuco.max_retry_time == 20
   end
 
   test "set retry delay" do
