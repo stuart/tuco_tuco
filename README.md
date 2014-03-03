@@ -11,11 +11,12 @@ easy for developers to write tests for a web application.
 
 ## Setup
 In your mix.exs add the following to the test environment deps:
-   ```{:tucotuco, github: "stuart/TucoTuco"} ```
 
-To start it add the line to your test_helper.exs:
-    ``` :application.start TucoTuco ```
+   ```{:tucotuco, github: "stuart/tuco_tuco"} ```
 
+Either specify tuco_tuco in your application block in mix.exs or do:
+
+   ``` :application.start TucoTuco ```
 
 ## Requirements
 Testing requires that you have Phantomjs, Firefox or ChromeDriver installed.
@@ -61,7 +62,7 @@ Here is a rough guide to using TucoTuco.
     click_button "Submit"
   ```
 
-  Yet to come: clicking directly on elements and mouse movements.
+  Yet to come: mouse movements.
 
 ### Forms
   Interacting with forms is easy with TucoTuco's functions for that:

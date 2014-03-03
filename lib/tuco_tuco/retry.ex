@@ -27,7 +27,7 @@ defmodule TucoTuco.Retry do
   end
 
   defp retry fun, start_time do
-    if :timer.now_diff(:erlang.now, start_time) > (TucoTuco.max_retry_time * 1000) do
+    if :timer.now_diff(:os.timestamp, start_time) > (TucoTuco.max_retry_time * 1000) do
       fun.()
     else
       case fun.() do
