@@ -130,11 +130,12 @@ Here is a rough guide to using TucoTuco.
   [WebDriver.Element](http://stuart.github.io/elixir-webdriver/WebDriver.Element.html).
 
 ### Javascript
-  Running Javascript is not yet supported, but is supported in the
-  underlying WebDriver library. A simpler API is in the TODO list.
+  Javascript can be run using the ```execute_javascript``` and ```execute_async_javascript```
+  commands.
 
   ```elixir
-    WebDriver.Session.execute current_session, "return arguments[0] * arguments[1];", [5,3]
+    iex> execute_javascript "return argument[0] * 10", [3]
+    iex> 30
   ```
 
 ### Retrying
