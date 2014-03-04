@@ -227,3 +227,7 @@ Example Session from console:
   * Element functions from WebDriver
   * Retries
 
+2014-03-04
+  * 0.3.0
+  * Added execute_javascript and execute_async_javascript
+
