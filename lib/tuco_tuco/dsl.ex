@@ -92,12 +92,19 @@ defmodule TucoTuco.DSL do
     the Javascript array called ```arguments```.
 
     Return values can be:
+
       * :null
       * A number.
       * A string.
       * A WebDriver.Element.Reference record.
       * A tuple list (Javacript object.)
       * A list of any of these.
+
+    Example:
+
+    ```
+      assert "Hello World" == execute_javascript("return argument[0] + argument[1]", ["Hello","World"])
+    ```
 
   """
   def execute_javascript script, arguments \\ [] do
