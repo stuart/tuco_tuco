@@ -12,6 +12,13 @@ defmodule TucoTuco.Page do
     ```
       assert Page.has_css? "table#fruit tr.first"
     ```
+
+    # About Retries
+    It is important to use the ```has_no_x``` type functions if there
+    is Javascript running that could modify the page. You will not get
+    correct results if you do something like ```assert !has_css? "h2.foo"```,
+    instead you should use ```assert has_no_css "h2.foo"```.
+
   """
 
   @doc """

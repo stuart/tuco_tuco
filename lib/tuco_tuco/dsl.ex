@@ -84,4 +84,56 @@ defmodule TucoTuco.DSL do
   def current_session do
     TucoTuco.current_session
   end
+
+  @doc """
+    Executes javascript in the page.
+
+    The arguments can be referred to in the script by referencing
+    the Javascript array called ```arguments```.
+
+    Return values can be:
+      * :null
+      * A number.
+      * A string.
+      * A WebDriver.Element.Reference record.
+      * A tuple list (Javacript object.)
+      * A list of any of these.
+
+  """
+  def execute_javascript script, arguments \\ [] do
+    WebDriver.Session.execute(current_session, script, arguments) |> handle_js_response
+  end
+
+  @doc """
+    Executes javascript in the page. This executes the javascript asynchronously
+    and returns when the callback is called which will be injected as the last
+    argument to the function.
+  """
+  def execute_async_javascript script, arguments \\ [] do
+    WebDriver.Session.execute(current_session, script, arguments) |> handle_js_response
+  end
+
+  defp handle_js_response {:unknown_error, response} do
+    {:error, "There is possibly an error in your Javascript.", response}
+  end
+
+  defp handle_js_response {:javascript_error, response} do
+    {:error, "There is an error in your javascript.", response}
+  end
+
+  defp handle_js_response [[{"ELEMENT", id}]] do
+    handle_js_response([{"ELEMENT", id}])
+  end
+
+  defp handle_js_response [[{"ELEMENT", id}] | tail ] do
+    [ handle_js_response([{"ELEMENT", id}]),  handle_js_response tail ]
+  end
+
+  defp handle_js_response [{"ELEMENT", id}] do
+    WebDriver.Element.Reference.new(id: id, session: current_session)
+  end
+
+  defp handle_js_response response do
+    response
+  end
 end
