@@ -1,6 +1,6 @@
 Expm.Package.new( name: "Tuco Tuco",
                   description: "Integration testing tool for web applications.",
-                  version: "0.3.0",
+                  version: "0.4.0",
                   keywords: ["Elixir", "Selenium", "WebDriver", "library", "testing"],
                   homepage: "http://stuart.github.io/tuco_tuco",
                   maintainers: [[  name: "Stuart Coyle",

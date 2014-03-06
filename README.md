@@ -190,6 +190,14 @@ Here is a rough guide to using TucoTuco.
     TucoTuco.sessions
   ```
 
+### Screenshot
+   When the driver supports it, you can take a screenshot and
+   save it as a PNG file.
+
+   ```
+      save_screenshot "path/to/file.png"
+   ```
+
 Example Session from console:
 ( some responses have been cut for brevity )
 
@@ -232,3 +240,6 @@ Example Session from console:
   * 0.3.0
   * Added execute_javascript and execute_async_javascript
 
+2014-03-06
+  * 0.4.0
+  * Added save_screenshot
