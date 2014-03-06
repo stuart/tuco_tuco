@@ -3,7 +3,7 @@ defmodule TucoTuco.Mixfile do
 
   def project do
     [ app: :tuco_tuco,
-      version: "0.3.0",
+      version: "0.4.0",
       elixir: "~> 0.12.3",
       env: [
           dev:  [ deps: deps ++ dev_deps  ],
