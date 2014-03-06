@@ -99,4 +99,19 @@ defmodule TucoTucoDSLTest do
   test "execute async javascript" do
     assert execute_async_javascript("return arguments[0] * arguments[1]", [6,9]) == 54
   end
+
+  test "take a screenshot writes a png file" do
+    path = "/tmp/screenshot.png"
+    File.rm path
+    save_screenshot path
+    assert File.exists? path
+  end
+
+  test "the screenshot is a png file" do
+    path = "/tmp/screenshot.png"
+    File.rm path
+    save_screenshot path
+    {:ok, data} = File.read(path)
+    assert <<137,80,78,71,13,10,26,10, _::binary>> = data
+  end
 end

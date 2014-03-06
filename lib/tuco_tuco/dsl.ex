@@ -1,5 +1,4 @@
 defmodule TucoTuco.DSL do
-
   defmacro __using__(_options) do
     quote do
       import unquote(__MODULE__)
@@ -142,5 +141,17 @@ defmodule TucoTuco.DSL do
 
   defp handle_js_response response do
     response
+  end
+
+  @doc """
+    Saves a PNG screenshot at the path specified.
+    Returns ```:ok``` if successful or ```{:error, reason}``` if there
+    is an error.
+  """
+  def save_screenshot file_path do
+    case WebDriver.Session.screenshot(current_session) do
+      {:error, reason} -> {:error, reason}
+      data             -> File.write(file_path, :base64.decode(data))
+    end
   end
 end
