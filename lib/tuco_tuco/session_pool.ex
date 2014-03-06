@@ -83,13 +83,12 @@ defmodule TucoTuco.SessionPool do
   def handle_call {:start_session, browser_config, session_name}, _sender, state do
     browsers = WebDriver.browsers
     case :lists.member(browser_config.name, browsers) do
-      true ->  {:ok, session} = WebDriver.start_session browser_config.name, session_name
+      true ->  {:ok, _session} = WebDriver.start_session browser_config.name, session_name
 
       false -> WebDriver.start_browser browser_config
-               {:ok, session} = WebDriver.start_session browser_config.name, session_name
+               {:ok, _session} = WebDriver.start_session browser_config.name, session_name
     end
     state = state.current_session(session_name)
     {:reply, {:ok, state}, state}
   end
-
 end

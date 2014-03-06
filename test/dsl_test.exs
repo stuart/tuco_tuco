@@ -88,7 +88,7 @@ defmodule TucoTucoDSLTest do
 
   test "make sure that elements from Javascript can be used in other calls" do
     click_link "Page 2"
-    [e1,e2] = execute_javascript("return $('p')")
+    [e1|_] = execute_javascript("return $('p')")
     assert "Clicking the link shows text with a delay." == Element.text e1
   end
 
