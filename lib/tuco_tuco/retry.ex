@@ -10,9 +10,9 @@ defmodule TucoTuco.Retry do
   def retry fun do
     if TucoTuco.use_retry do
       case fun.() do
-        false       -> retry fun, :erlang.now #TucoTuco.max_retry_time
-        nil         -> retry fun, :erlang.now #TucoTuco.max_retry_time
-        {:error, _} -> retry fun, :erlang.now #TucoTuco.max_retry_time
+        false       -> retry fun, :os.timestamp
+        nil         -> retry fun, :os.timestamp
+        {:error, _} -> retry fun, :os.timestamp
         true        -> true
         {:ok, response} -> {:ok, response}
         element     -> element
