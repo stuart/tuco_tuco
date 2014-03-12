@@ -23,20 +23,32 @@ defmodule TucoTuco.Page do
 
   @doc """
     Does the page have an element matching the specified css selector?
+
+    Options include:
+
+      * :count - Specify exactly the number of occurrences on the page of the selector
+      that must be found for this to be true.
+
   """
-  def has_css? css do
-    has_selector? :css, css
+  def has_css? css, options \\ [] do
+    has_selector? :css, css, options
   end
 
   def has_no_css? css do
-    has_no_selector?(:css, css)
+    has_no_selector? :css, css
   end
 
   @doc """
     Does the page have an element matching the xpath selector?
+
+    Options include:
+
+      * :count - Specify exactly the number of occurrences on the page of the selector
+      that must be found for this to be true.
+
   """
-  def has_xpath? xpath do
-    has_selector? :xpath, xpath
+  def has_xpath? xpath, options \\ [] do
+    has_selector? :xpath, xpath, options
   end
 
   def has_no_xpath? xpath do
@@ -164,9 +176,20 @@ defmodule TucoTuco.Page do
       * :partial_link - Find a link element containing a superset of the given text.
       * :tag - Find a HTML tag of the given type.
       * :xpath - Use [XPath](http://www.w3.org/TR/xpath/) to search for an element.
+
+    Options include:
+
+      * :count - Specify exactly the number of occurrences on the page of the selector
+      that must be found for this to be true.
+
   """
-  def has_selector? using, selector do
-    retry fn -> is_element? WebDriver.Session.element(current_session, using, selector) end
+  def has_selector? using, selector, options \\ [count: nil] do
+    count = Keyword.get(options, :count)
+    if count != nil do
+      retry fn -> Enum.count(WebDriver.Session.elements(current_session, using, selector)) == count end
+    else
+      retry fn -> is_element? WebDriver.Session.element(current_session, using, selector) end
+    end
   end
 
   def has_no_selector? using, selector do
