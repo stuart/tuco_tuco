@@ -93,6 +93,14 @@ Here is a rough guide to using TucoTuco.
     Page.has_link? "Back"
   ```
 
+  With ```has_css?``` and ```has_xpath?``` you can specify a count
+  of how many should be found.
+
+  ```elixir
+    # Check that there are 5 rows in the table.
+    Page.has_css? "table tbody tr", count: 5
+  ```
+
   There are many more. Check the documentation for them.
 
 ### Assertions

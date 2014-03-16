@@ -28,12 +28,20 @@ defmodule TucoTucoPageTest do
     assert Page.has_css? "select#sel1"
   end
 
+  test "has_css with a count specified" do
+    assert Page.has_css? "select option", count: 15
+  end
+
   test "has_no_css?" do
     assert Page.has_no_css? "select#foo"
   end
 
   test "has_xpath?" do
     assert Page.has_xpath? "/html/body/h1[.='Test Index']"
+  end
+
+  test "has_xpath with count" do
+    assert Page.has_xpath? "/html/body/table/tbody/tr", count: 2
   end
 
   test "has_no_xpath?" do

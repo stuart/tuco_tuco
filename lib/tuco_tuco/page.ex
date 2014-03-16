@@ -23,20 +23,32 @@ defmodule TucoTuco.Page do
 
   @doc """
     Does the page have an element matching the specified css selector?
+
+    Options include:
+
+      * :count - Specify exactly the number of occurrences on the page of the selector
+      that must be found for this to be true.
+
   """
-  def has_css? css do
-    has_selector? :css, css
+  def has_css? css, options \\ [] do
+    has_selector? :css, css, options
   end
 
   def has_no_css? css do
-    has_no_selector?(:css, css)
+    has_no_selector? :css, css
   end
 
   @doc """
     Does the page have an element matching the xpath selector?
+
+    Options include:
+
+      * :count - Specify exactly the number of occurrences on the page of the selector
+      that must be found for this to be true.
+
   """
-  def has_xpath? xpath do
-    has_selector? :xpath, xpath
+  def has_xpath? xpath, options \\ [] do
+    has_selector? :xpath, xpath, options
   end
 
   def has_no_xpath? xpath do
@@ -50,6 +62,9 @@ defmodule TucoTuco.Page do
     retry fn -> is_element? find(:fillable_field, text) end
   end
 
+  @doc """
+    Does the page not have a link containing the specified text, id or name.
+  """
   def has_no_field? text do
     retry fn -> is_not_element? find(:fillable_field, text) end
   end
@@ -61,18 +76,27 @@ defmodule TucoTuco.Page do
     retry fn -> is_element? find(:link, text) end
   end
 
+  @doc """
+    Does the page not have a link containing the specified text, id or name.
+  """
   def has_no_link? text do
     retry fn -> is_not_element? find(:link, text) end
   end
 
   @doc """
     Does the page have a button.
+
     Finds by text, id or name.
   """
   def has_button? text do
     retry fn-> is_element? find(:button, text) end
   end
 
+  @doc """
+    Does the page not have a button.
+
+    Finds by text, id or name.
+  """
   def has_no_button? text do
     retry fn -> is_not_element? find(:button, text) end
   end
@@ -92,6 +116,11 @@ defmodule TucoTuco.Page do
     end
   end
 
+  @doc """
+    Does the page not have a checkbox or radio button that is checked?
+
+    Finds by label or id.
+  """
   def has_no_checked_field? text do
     retry fn ->
       element = find(:checkbox_or_radio, text)
@@ -117,6 +146,11 @@ defmodule TucoTuco.Page do
     end
   end
 
+  @doc """
+    Does the page not have a checkbox or radio button that is unchecked?
+
+    Finds by label or id.
+  """
   def has_no_unchecked_field? text do
     retry fn ->
       element = find(:checkbox_or_radio, text)
@@ -134,6 +168,9 @@ defmodule TucoTuco.Page do
     retry fn -> is_element? find(:select, text) end
   end
 
+  @doc """
+    Does the page not have a select with the given id, name or label.
+  """
   def has_no_select? text do
     retry fn -> is_element? find(:select, text) end
   end
@@ -145,6 +182,9 @@ defmodule TucoTuco.Page do
     retry fn -> is_element? find(:table, text) end
   end
 
+  @doc """
+    Does the page not have a table with the given caption or id?
+  """
   def has_no_table? text do
     retry fn -> is_not_element? find(:table, text) end
   end
@@ -164,11 +204,25 @@ defmodule TucoTuco.Page do
       * :partial_link - Find a link element containing a superset of the given text.
       * :tag - Find a HTML tag of the given type.
       * :xpath - Use [XPath](http://www.w3.org/TR/xpath/) to search for an element.
+
+    Options include:
+
+      * :count - Specify exactly the number of occurrences on the page of the selector
+      that must be found for this to be true.
+
   """
-  def has_selector? using, selector do
-    retry fn -> is_element? WebDriver.Session.element(current_session, using, selector) end
+  def has_selector? using, selector, options \\ [count: nil] do
+    count = Keyword.get(options, :count)
+    if count != nil do
+      retry fn -> Enum.count(WebDriver.Session.elements(current_session, using, selector)) == count end
+    else
+      retry fn -> is_element? WebDriver.Session.element(current_session, using, selector) end
+    end
   end
 
+  @doc """
+    The page has no elements matching the selector using the specified strategy.
+  """
   def has_no_selector? using, selector do
     retry fn -> is_not_element? WebDriver.Session.element(current_session, using, selector) end
   end
@@ -180,6 +234,9 @@ defmodule TucoTuco.Page do
     retry fn -> is_element? find(:xpath, "//*[contains(.,'#{text}')]") end
   end
 
+  @doc """
+    Does the page not contain the text specified?
+  """
   def has_no_text? text do
     retry fn -> is_not_element? find(:xpath, "//*[contains(.,'#{text}')]") end
   end
