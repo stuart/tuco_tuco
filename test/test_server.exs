@@ -1,8 +1,8 @@
 # HTTP Server for testing.
 defmodule TucoTuco.TestServer do
   @config [ port: 8889,
-            server_root:   String.to_char_list!(Path.absname("../", __DIR__)),
-            document_root: String.to_char_list!(Path.absname("pages", __DIR__)),
+            server_root:   String.to_char_list(Path.absname("../", __DIR__)),
+            document_root: String.to_char_list(Path.absname("pages", __DIR__)),
             server_name:   'tucotuco_test',
             directory_index: ['index.html']]
 

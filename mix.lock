@@ -1,8 +1,5 @@
-%{"ex_doc": {:git, "git://github.com/elixir-lang/ex_doc.git", "c14203bfca186f68ff178e5ada9af4f5fb37e205", []},
-  "httpotion": {:git, "git://github.com/myfreeweb/httpotion.git", "94b0fdb7bb1f5322791e3a309f2e06d0b8ab9ef3", []},
+%{"httpotion": {:git, "git://github.com/myfreeweb/httpotion.git", "1419c64468483d192cc017f18de3412f9dca7fb4", []},
   "ibrowse": {:git, "git://github.com/cmullaparthi/ibrowse.git", "7871e2ebe8811efb64e1917e2de455fa87e8dfe3", [tag: "v4.1.0"]},
-  "jsonex": {:git, "git://github.com/marcelog/jsonex.git", "6248cad507c8b77ace1dbb907a854a6b5cbc5695", []},
-  "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "9cb8703beecaf4c39e3dbfa293c747a0e7aa6450", []},
-  "meck": {:git, "git://github.com/eproxus/meck.git", "2447206f201bab1054c49cd32621eee23fa0ee3b", [tag: "0.7.2"]},
-  "mock": {:git, "git://github.com/jjh42/mock.git", "e54a8f8ac3b69b5a610399f7fb5efe65446526eb", []},
-  "webdriver": {:git, "git://github.com/stuart/elixir-webdriver.git", "43d0385ff55ccf29cbec95e202823dd7421f2168", []}}
+  "jsonex": {:git, "git://github.com/marcelog/jsonex.git", "82e6c416eed5e791073427bf3079d7ab7b85a1e1", []},
+  "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "507fa4c41db33c81e925ab53f4d789d234aaff2f", []},
+  "webdriver": {:git, "git://github.com/stuart/elixir-webdriver.git", "769945df6a3531b4bfd824a739d3cec3c00d8977", []}}

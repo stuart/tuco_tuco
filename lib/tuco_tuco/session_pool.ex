@@ -6,26 +6,27 @@ defmodule TucoTuco.SessionPool do
     the underlying WebDriver sessions that are running.
   """
 
-  defrecord SessionPoolState,
-      current_session: nil,
-      app_root: nil,
-      use_retry: false,
-      max_retry_time: 2000,
-      retry_delay: 50
+  defmodule SessionPoolState do
+    defstruct current_session: nil,
+              app_root: nil,
+              use_retry: false,
+              max_retry_time: 2000,
+              retry_delay: 50
+  end
 
 
   def start_link do
-    state = SessionPoolState.new
+    state = %SessionPoolState{}
     :gen_server.start_link({:local, :tuco_tuco},__MODULE__, state, [])
   end
 
   def init _ do
-    {:ok, SessionPoolState.new}
+    {:ok, %SessionPoolState{}}
   end
 
   def handle_call {:current_session, new_session}, _sender, state do
     case :lists.member( new_session, WebDriver.sessions ) do
-      true -> new_state = state.current_session(new_session)
+      true -> new_state = %{state | current_session: new_session}
         {:reply, {:ok, new_state.current_session}, new_state}
       false -> {:reply, {:error, "Session :#{new_session} is not running."}, state}
     end
@@ -36,7 +37,7 @@ defmodule TucoTuco.SessionPool do
     if :lists.member( state.current_session, WebDriver.sessions ) do
       {:reply, {:ok, state.current_session}, state}
     else
-      {:reply, {:ok, nil}, state.current_session(nil)}
+      {:reply, {:ok, nil}, %{state | current_session: nil}}
     end
   end
 
@@ -45,7 +46,7 @@ defmodule TucoTuco.SessionPool do
   end
 
   def handle_call {:app_root, new_app_root}, _sender, state do
-    state = state.app_root(new_app_root)
+    state = %{state | app_root: new_app_root}
     {:reply, {:ok, state}, state}
   end
 
@@ -58,7 +59,7 @@ defmodule TucoTuco.SessionPool do
   end
 
   def handle_call({:use_retry, value}, _sender, state) when is_boolean(value) do
-    state = state.use_retry(value)
+    state = %{state | use_retry: value}
     {:reply, {:ok, state}, state}
   end
 
@@ -67,7 +68,7 @@ defmodule TucoTuco.SessionPool do
   end
 
   def handle_call({:max_retry_time, value}, _sender, state) when is_integer(value) and value > 0 do
-    state = state.max_retry_time(value)
+    state = %{state | max_retry_time: value}
     {:reply, {:ok, state}, state}
   end
 
@@ -76,7 +77,7 @@ defmodule TucoTuco.SessionPool do
   end
 
   def handle_call({:retry_delay, value}, _sender, state) when is_integer(value) and value > 0 do
-    state = state.max_retry_time(value)
+    state = %{state | retry_delay: value}
     {:reply, {:ok, state}, state}
   end
 
@@ -88,7 +89,7 @@ defmodule TucoTuco.SessionPool do
       false -> WebDriver.start_browser browser_config
                {:ok, _session} = WebDriver.start_session browser_config.name, session_name
     end
-    state = state.current_session(session_name)
+    state = %{state | current_session: session_name}
     {:reply, {:ok, state}, state}
   end
 end

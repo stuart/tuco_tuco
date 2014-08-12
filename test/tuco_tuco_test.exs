@@ -3,10 +3,9 @@ defmodule TucoTucoTest do
 
   setup do
     :ok
-  end
-
-  teardown do
-    TucoTuco.stop
+    on_exit fn ->
+      TucoTuco.stop
+    end
   end
 
   test "current session returns nil when there is no session" do
@@ -19,7 +18,7 @@ defmodule TucoTucoTest do
 
   test "start_session starts a browser if one is not running" do
     resp = TucoTuco.start_session :test_browser, :tuco_test, :phantomjs
-    assert {:ok, TucoTuco.SessionPool.SessionPoolState[current_session: :tuco_test]} = resp
+    assert {:ok, %TucoTuco.SessionPool.SessionPoolState{current_session: :tuco_test}} = resp
     assert WebDriver.browsers == [:test_browser]
   end
 

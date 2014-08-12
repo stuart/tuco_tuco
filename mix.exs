@@ -19,14 +19,14 @@ defmodule TucoTuco.Mixfile do
   end
 
   defp deps do
-    [ {:webdriver, github: "stuart/elixir-webdriver", tag: "0.5.0"} ]
+    [ {:webdriver, github: "stuart/elixir-webdriver"} ]
   end
 
   defp deps :test do
-    []
+    deps ++ []
   end
 
-  defp deps :dev do
-    []
+  defp deps _ do
+    deps ++ []
   end
 end

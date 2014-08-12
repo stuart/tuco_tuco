@@ -105,7 +105,7 @@ Here is a rough guide to using TucoTuco.
 
 ### Elements
   The following functions for manipulating elements are imported from
-  WebDriver, they all take a WebDriver.Element.Reference record as the
+  WebDriver, they all take a WebDriver.Element struct as the
   first argument. Luckily that is exactly what all the finders return:
 
   ```elixir

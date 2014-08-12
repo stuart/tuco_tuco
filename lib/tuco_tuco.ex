@@ -40,7 +40,9 @@ defmodule TucoTuco do
 
   """
 
-  defrecord Config, browser: :phantomjs, name: nil
+  defmodule Config do
+    defstruct browser: :phantomjs, name: nil
+  end
 
   @doc """
     Start the TucoTuco application.
@@ -150,7 +152,7 @@ defmodule TucoTuco do
 
   """
   def start_session browser_name, session_name, driver \\ :phantomjs do
-    browser_config = WebDriver.Config.new(browser: driver, name: browser_name)
+    browser_config = %WebDriver.Config{browser: driver, name: browser_name}
     :gen_server.call :tuco_tuco, {:start_session, browser_config, session_name}
   end
 

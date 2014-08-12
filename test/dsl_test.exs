@@ -7,12 +7,11 @@ defmodule TucoTucoDSLTest do
   setup_all do
     http_server_pid = TucoTuco.TestServer.start
     TucoTuco.start_session :test_browser, :tuco_test, :phantomjs
+    on_exit fn ->
+      TucoTuco.stop
+      TucoTuco.TestServer.stop(http_server_pid)
+    end
     {:ok, [http_server_pid: http_server_pid]}
-  end
-
-  teardown_all meta do
-    TucoTuco.stop
-    TucoTuco.TestServer.stop(meta[:http_server_pid])
   end
 
   setup do
@@ -77,13 +76,13 @@ defmodule TucoTucoDSLTest do
 
   test "execute javascript returning a page element" do
     click_link "Page 2" # Page 2 has JQuery
-    assert  WebDriver.Element.Reference[id: _, session: :tuco_test] = execute_javascript("return $('a#appear')[0]")
+    assert  %WebDriver.Element{id: _, session: :tuco_test} = execute_javascript("return $('a#appear')[0]")
   end
 
   test "execute javascript returning an array of elements" do
     click_link "Page 2"
-    assert  [WebDriver.Element.Reference[id: _, session: :tuco_test],
-             WebDriver.Element.Reference[id: _, session: :tuco_test]] = execute_javascript("return $('p')")
+    assert  [%WebDriver.Element{id: _, session: :tuco_test},
+             %WebDriver.Element{id: _, session: :tuco_test}] = execute_javascript("return $('p')")
   end
 
   test "make sure that elements from Javascript can be used in other calls" do
