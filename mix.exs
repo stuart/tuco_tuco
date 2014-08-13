@@ -27,6 +27,6 @@ defmodule TucoTuco.Mixfile do
   end
 
   defp deps _ do
-    deps ++ []
+    deps
   end
 end

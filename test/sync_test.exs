@@ -36,7 +36,7 @@ defmodule TucoTucoSynchTest do
 
   test "retry returns true if function eventually is true" do
     start = :erlang.now
-    fun = fn -> d = :timer.now_diff(:erlang.now, start) > 300000 end
+    fun = fn -> :timer.now_diff(:erlang.now, start) > 300000 end
     assert TucoTuco.Retry.retry fun
   end
 

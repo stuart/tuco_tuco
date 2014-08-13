@@ -73,7 +73,7 @@ defmodule TucoTuco.SessionPool do
   end
 
   def handle_call :retry_delay, _sender, state do
-    {:reply, {:ok, state.max_retry_time}, state}
+    {:reply, {:ok, state.retry_delay}, state}
   end
 
   def handle_call({:retry_delay, value}, _sender, state) when is_integer(value) and value > 0 do
