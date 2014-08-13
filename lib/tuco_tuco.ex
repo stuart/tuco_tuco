@@ -1,5 +1,5 @@
 defmodule TucoTuco do
-  use Application.Behaviour
+  use Application
 
   @moduledoc """
     TucoTuco is a web testing suite for Elixir applications.

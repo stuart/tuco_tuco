@@ -1,5 +1,5 @@
 defmodule TucoTuco.SessionPool do
-  use GenServer.Behaviour
+  use GenServer
 
   @moduledoc """
     The session pool is responsible for maintaining state which references
