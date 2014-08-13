@@ -7,15 +7,18 @@ defmodule TucoTucoSynchTest do
   setup_all do
     http_server_pid = TucoTuco.TestServer.start
     TucoTuco.start_session :test_browser, :tuco_test, :phantomjs
+
+    on_exit fn ->
+      TucoTuco.stop
+      TucoTuco.TestServer.stop(http_server_pid)
+    end
     {:ok, [http_server_pid: http_server_pid]}
   end
 
-  teardown_all meta do
-    TucoTuco.stop
-    TucoTuco.TestServer.stop(meta[:http_server_pid])
-  end
-
   setup do
+    TucoTuco.max_retry_time 2000
+    TucoTuco.retry_delay 20
+
     {:ok, _} = TucoTuco.use_retry true
     {:ok, _} = visit_page_2
     :ok
@@ -53,13 +56,13 @@ defmodule TucoTucoSynchTest do
   end
 
   test "retry returns an element if function returns an element" do
-    fun = fn -> WebDriver.Element.Reference.new end
-    assert WebDriver.Element.Reference.new  == TucoTuco.Retry.retry(fun)
+    fun = fn -> %WebDriver.Element{} end
+    assert %WebDriver.Element{}  == TucoTuco.Retry.retry(fun)
   end
 
   def element_test_fun start do
     if :timer.now_diff(:erlang.now, start) > 300000 do
-      WebDriver.Element.Reference.new
+      %WebDriver.Element{}
     else
       nil
     end
@@ -67,7 +70,7 @@ defmodule TucoTucoSynchTest do
 
   test "retry returns an element if function eventually returns one" do
     start = :erlang.now
-    assert WebDriver.Element.Reference.new  == TucoTuco.Retry.retry(fn -> element_test_fun(start) end )
+    assert %WebDriver.Element{}  == TucoTuco.Retry.retry(fn -> element_test_fun(start) end )
   end
 
   def response_test_fun start do

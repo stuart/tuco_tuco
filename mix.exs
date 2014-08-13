@@ -3,35 +3,30 @@ defmodule TucoTuco.Mixfile do
 
   def project do
     [ app: :tuco_tuco,
-      version: "0.4.0",
-      elixir: "~> 0.12.3",
-      env: [
-          dev:  [ deps: deps ++ dev_deps  ],
-          test: [ deps: deps ++ test_deps ],
-          prod: [ deps: deps ]
-        ]
+      version: "0.5.0",
+      elixir: "~> 0.15.1",
+      source_url: "https://github.com/stuart/tuco_tuco",
+      homepage_url: "http://stuart.github.io/tuco_tuco",
+      deps: deps(Mix.env)
     ]
   end
 
   # Configuration for the OTP application
   def application do
-    [mod: { TucoTuco, [] }, applications: [ :webdriver ]]
+    [ mod: { TucoTuco, [] },
+      applications: [ :webdriver ]
+    ]
   end
 
-  # Returns the list of dependencies in the format:
-  # { :foobar, git: "https://github.com/elixir-lang/foobar.git", tag: "0.1" }
-  #
-  # To specify particular versions, regardless of the tag, do:
-  # { :barbat, "~> 0.1", github: "elixir-lang/barbat" }
   defp deps do
     [ {:webdriver, github: "stuart/elixir-webdriver"} ]
   end
 
-  defp test_deps do
-    []
+  defp deps :test do
+    deps ++ []
   end
 
-  defp dev_deps do
-    []
+  defp deps _ do
+    deps
   end
 end

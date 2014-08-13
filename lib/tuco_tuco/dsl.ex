@@ -95,7 +95,7 @@ defmodule TucoTuco.DSL do
       * :null
       * A number.
       * A string.
-      * A WebDriver.Element.Reference record.
+      * A WebDriver.Element struct.
       * A tuple list (Javacript object.)
       * A list of any of these.
 
@@ -136,7 +136,7 @@ defmodule TucoTuco.DSL do
   end
 
   defp handle_js_response [{"ELEMENT", id}] do
-    WebDriver.Element.Reference.new(id: id, session: current_session)
+    %WebDriver.Element{id: id, session: current_session}
   end
 
   defp handle_js_response response do

@@ -8,12 +8,11 @@ defmodule TucoTucoElementTest do
     http_server_pid = TucoTuco.TestServer.start
     TucoTuco.start_session :test_browser, :tuco_test, :phantomjs
     TucoTuco.app_root "http://localhost:8889"
+    on_exit fn ->
+      TucoTuco.stop
+      TucoTuco.TestServer.stop(http_server_pid)
+    end
     {:ok, [http_server_pid: http_server_pid]}
-  end
-
-  teardown_all meta do
-    TucoTuco.stop
-    TucoTuco.TestServer.stop(meta[:http_server_pid])
   end
 
   setup do

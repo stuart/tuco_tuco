@@ -242,7 +242,7 @@ defmodule TucoTuco.Page do
   end
 
   def is_element? element do
-    is_record(element, WebDriver.Element.Reference)
+    is_map(element) && element.__struct__ == WebDriver.Element
   end
 
   def is_not_element? element do

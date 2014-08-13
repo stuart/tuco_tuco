@@ -113,7 +113,7 @@ Here is a rough guide to using TucoTuco.
 
 ### Elements
   The following functions for manipulating elements are imported from
-  WebDriver, they all take a WebDriver.Element.Reference record as the
+  WebDriver, they all take a WebDriver.Element struct as the
   first argument. Luckily that is exactly what all the finders return:
 
   ```elixir
@@ -238,16 +238,20 @@ Example Session from console:
 ```
 
 ###Changelog
+2014-08-12
+  * 0.5.0
+  * Elixir-0.15.0
+  * Webdriver 0.5.0
 
-2014-03-02
-  * 0.2.1
-  * Element functions from WebDriver
-  * Retries
+2014-03-06
+  * 0.4.0
+  * Added save_screenshot
 
 2014-03-04
   * 0.3.0
   * Added execute_javascript and execute_async_javascript
 
-2014-03-06
-  * 0.4.0
-  * Added save_screenshot
+2014-03-02
+  * 0.2.1
+  * Element functions from WebDriver
+  * Retries
