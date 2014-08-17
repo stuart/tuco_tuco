@@ -110,7 +110,12 @@ Here is a rough guide to using TucoTuco.
     assert_selector :xpath, "//foo/bar"
     refute_selector :xpath, "//baz[@class='bob']"
   ```
+### Finders
+  Finders return elements from the DOM.
 
+  ```elixir
+
+  ```
 ### Elements
   The following functions for manipulating elements are imported from
   WebDriver, they all take a WebDriver.Element struct as the
@@ -238,6 +243,11 @@ Example Session from console:
 ```
 
 ###Changelog
+2014-08-17
+  * 0.5.1
+  * Webdriver 0.5.2
+  * Use hex.pm for deps
+  
 2014-08-12
   * 0.5.0
   * Elixir-0.15.0

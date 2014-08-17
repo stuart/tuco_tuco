@@ -31,7 +31,7 @@ defmodule TucoTucoElementTest do
     Element.click ref
     assert current_path == "/page_1.html"
   end
-
+  
   test "fill and clear an element" do
     ref = TucoTuco.Finder.find(:id, "message")
     Element.value ref, "This is my message."
@@ -45,5 +45,7 @@ defmodule TucoTucoElementTest do
     assert Element.css(ref, "background-color") == "rgba(0, 0, 0, 0)"
   end
 
-  #TODO Test the rest.
+  test "gives an appropriate error with a nil element" do
+    assert_raise ArgumentError, fn -> Element.click(nil) end
+  end
 end
