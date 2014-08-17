@@ -33,8 +33,8 @@ defmodule TucoTuco.Mixfile do
   end
 
   defp package do
-    [contributors: "Stuart Coyle",
-     licenses: "MIT License",
+    [contributors: ["Stuart Coyle"],
+     licenses: ["MIT License"],
      links: %{"Github" => "https://github.com/stuart/tuco-tuco"}]
   end
 end
