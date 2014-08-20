@@ -12,5 +12,8 @@ before_install:
    - "export DISPLAY=:99.0"
    - "sh -e /etc/init.d/xvfb start"
 
-before_script: "export PATH=$PATH:`pwd`/vendor/elixir/bin"
-script: "MIX_ENV=test mix do deps.get, deps.compile, test"
+before_script:
+   - "export PATH=$PATH:`pwd`/vendor/elixir/bin"
+   - mix local.hex
+
+script: "MIX_ENV=test mix do deps.get, deps.compile, firefox.plugin.install test"
