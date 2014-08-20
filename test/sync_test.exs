@@ -18,7 +18,10 @@ defmodule TucoTucoSynchTest do
   setup do
     TucoTuco.max_retry_time 2000
     TucoTuco.retry_delay 20
-
+    on_exit fn ->
+      TucoTuco.max_retry_time 2000
+      TucoTuco.retry_delay 20
+    end
     {:ok, _} = TucoTuco.use_retry true
     {:ok, _} = visit_page_2
     :ok
