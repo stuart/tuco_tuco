@@ -3,7 +3,7 @@ defmodule TucoTuco.Mixfile do
 
   def project do
     [ app: :tuco_tuco,
-      version: "0.5.1",
+      version: "0.6.0",
       elixir: "~> 0.15.1",
       description: "Testing tool for web applications",
       source_url: "https://github.com/stuart/tuco_tuco",
@@ -21,7 +21,8 @@ defmodule TucoTuco.Mixfile do
   end
 
   defp deps do
-    [ {:webdriver, "~>0.5.2"} ]
+    [ {:ibrowse,   github: "cmullaparthi/ibrowse", tag: "v4.1.0"},
+      {:webdriver, "~>0.6.0"} ]
   end
 
   defp deps :test do

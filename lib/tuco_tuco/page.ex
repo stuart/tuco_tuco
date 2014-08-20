@@ -241,8 +241,12 @@ defmodule TucoTuco.Page do
     retry fn -> is_not_element? find(:xpath, "//*[contains(.,'#{text}')]") end
   end
 
-  def is_element? element do
-    is_map(element) && element.__struct__ == WebDriver.Element
+  def is_element? %WebDriver.Element{id: _, session: _} do
+    true
+  end
+
+  def is_element? _ do
+    false
   end
 
   def is_not_element? element do

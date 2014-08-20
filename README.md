@@ -12,7 +12,7 @@ easy for developers to write tests for a web application.
 ## Setup
 In your mix.exs add the following to the test environment deps:
 
-   ```{:tucotuco, github: "stuart/tuco_tuco"} ```
+   ```{:tucotuco, "~>0.6.0"} ```
 
 Either specify tuco_tuco in your application block in mix.exs or do:
 
@@ -20,10 +20,33 @@ Either specify tuco_tuco in your application block in mix.exs or do:
 
 ## Requirements
 Testing requires that you have Phantomjs, Firefox or ChromeDriver installed.
+The WebDriver library will also prompt you to install the Firefox plugin with
+`mix webdriver.firefox.plugin` if it is not present.
 You can also test against a remote WebDriver server such as a Selenium instance.
 
 ## Documentation
 Here is a rough guide to using TucoTuco.
+
+### Starting A Session
+  Import the DSL functionality with:
+
+   ```
+    use TucoTuco.DSL
+   ```
+
+  Start a session with:
+
+  ```
+    TucoTuco.start_session :browser_name, :session_name, :browser_type
+  ```
+
+  Where browser_name and session_name are atoms to reference the running
+  browser and session with later and browser_type is one of
+
+    * :phantomjs
+    * :firefox
+    * :chromedriver
+    * :remote
 
 ### Navigation
   Visit sends the browser to other pages.
@@ -110,11 +133,11 @@ Here is a rough guide to using TucoTuco.
     assert_selector :xpath, "//foo/bar"
     refute_selector :xpath, "//baz[@class='bob']"
   ```
-### Finders
-  Finders return elements from the DOM.
+### Finder
+  Finder return elements from the DOM.
 
   ```elixir
-
+    Finder.find
   ```
 ### Elements
   The following functions for manipulating elements are imported from
@@ -212,42 +235,67 @@ Here is a rough guide to using TucoTuco.
    ```
 
 Example Session from console:
-( some responses have been cut for brevity )
 
 ```elixir
-  iex(1)> use TucoTuco.DSL
-  :ok
-  iex(2)> TucoTuco.start_session :test_browser, :tuco_test, :phantomjs
-  {:ok,
-   TucoTuco.SessionPool.SessionPoolState[current_session: :tuco_test,
-    app_root: nil]}
-  iex(3)> visit "http://elixir-lang.org"
-  iex(4)> current_url
-  "http://elixir-lang.org/"
-  iex(5)> click_link "getting started guide"
-  iex(6)> current_url
-  "http://elixir-lang.org/getting_started/1.html"
-  iex(7)> Page.has_css? "article h1#toc_0"
-  true
-  iex(8)> Page.has_text? "Elixir also supports UTF-8 encoded strings:"
-  true
-  iex(9)> click_link "Next →"
-  iex(10)> current_url
-  "http://elixir-lang.org/getting_started/2.html"
-  iex(11)> Page.has_xpath? "//h1[.='2 Diving in']"
-  true
-  iex(15)> go_back
-  iex(16)> current_path
-  "/getting_started/1.html"
-  iex(17)>
+    iex(1)> use TucoTuco.DSL
+    :ok
+    iex(2)> TucoTuco.start_session :test_browser, :tuco_test, :phantomjs
+    {:ok,
+     %TucoTuco.SessionPool.SessionPoolState{app_root: nil,
+      current_session: :tuco_test, max_retry_time: 2000, retry_delay: 50,
+      use_retry: false}}
+    iex(3)> visit "http://elixir-lang.org"
+    {:ok,
+     %WebDriver.Protocol.Response{request: %WebDriver.Protocol.Request{body: "{\"url\":\"http://elixir-lang.org\"}",
+       headers: ["Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": 32], method: :POST,
+       url: "http://localhost:57491/wd/hub/session/4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7/url"},
+      session_id: "4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7", status: 0, value: %{}}}
+    iex(4)> click_link "getting started guide"
+    {:ok,
+     %WebDriver.Protocol.Response{request: %WebDriver.Protocol.Request{body: "{}",
+       headers: ["Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": 2], method: :POST,
+       url: "http://localhost:57491/wd/hub/session/4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7/element/:wdc:1408353394161/click"},
+      session_id: "4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7", status: 0, value: %{}}}
+    iex(5)> current_url
+    "http://elixir-lang.org/getting_started/1.html"
+    iex(6)> Page.has_css? "article h1#toc_0"
+    false
+    iex(7)> Page.has_text? "Elixir also supports UTF-8 encoded strings:"
+    false
+    iex(8)> click_link "Next →"
+    {:ok,
+     %WebDriver.Protocol.Response{request: %WebDriver.Protocol.Request{body: "{}",
+       headers: ["Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": 2], method: :POST,
+       url: "http://localhost:57491/wd/hub/session/4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7/element/:wdc:1408353427808/click"},
+      session_id: "4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7", status: 0, value: %{}}}
+    iex(9)> current_url
+    "http://elixir-lang.org/getting_started/2.html"
+    iex(10)>  Page.has_xpath? "//h1[.='2 Diving in']"
+    false
+    iex(11)> go_back
+    {:ok,
+     %WebDriver.Protocol.Response{request: %WebDriver.Protocol.Request{body: "{}",
+       headers: ["Content-Type": "application/json;charset=UTF-8",
+        "Content-Length": 2], method: :POST,
+       url: "http://localhost:57491/wd/hub/session/4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7/back"},
+      session_id: "4dc0b3b0-26b8-11e4-85b9-7b8e9f3c77e7", status: 0, value: %{}}}
+    iex(12)> current_path
+    "/getting_started/1.html"
 ```
 
 ###Changelog
+2014-08-20
+  * 0.6.0
+  * Webdriver 0.6.0
+
 2014-08-17
   * 0.5.1
   * Webdriver 0.5.2
   * Use hex.pm for deps
-  
+
 2014-08-12
   * 0.5.0
   * Elixir-0.15.0

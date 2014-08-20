@@ -127,15 +127,15 @@ defmodule TucoTuco.DSL do
     {:error, "There is an error in your javascript.", response}
   end
 
-  defp handle_js_response [[{"ELEMENT", id}]] do
-    handle_js_response([{"ELEMENT", id}])
+  defp handle_js_response [%{"ELEMENT" => id}] do
+    handle_js_response(%{"ELEMENT" => id})
   end
 
-  defp handle_js_response [[{"ELEMENT", id}] | tail ] do
-    [ handle_js_response([{"ELEMENT", id}]),  handle_js_response tail ]
+  defp handle_js_response [%{"ELEMENT" => id} | tail ] do
+    [ handle_js_response(%{"ELEMENT" => id}),  handle_js_response tail ]
   end
 
-  defp handle_js_response [{"ELEMENT", id}] do
+  defp handle_js_response %{"ELEMENT" => id} do
     %WebDriver.Element{id: id, session: current_session}
   end
 

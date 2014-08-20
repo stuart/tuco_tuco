@@ -71,7 +71,7 @@ defmodule TucoTucoDSLTest do
   end
 
   test "execute javascript that returns an object" do
-    assert execute_javascript("return {'foo':'bar','bar':'baz'}") == [{"foo", "bar"}, {"bar", "baz"}]
+    assert execute_javascript("return {'foo':'bar','bar':'baz'}") == %{"foo" => "bar", "bar" => "baz"}
   end
 
   test "execute javascript returning a page element" do
