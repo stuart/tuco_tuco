@@ -6,7 +6,6 @@ defmodule TucoTuco.DSL do
       import TucoTuco.Assertions
       alias TucoTuco.Finder, as: Finder
       alias TucoTuco.Page, as: Page
-      require TucoTuco.Page
       alias WebDriver.Element, as: Element
       :ok
     end
