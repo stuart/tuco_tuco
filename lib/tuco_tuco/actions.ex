@@ -5,8 +5,7 @@ defmodule TucoTuco.Actions do
     Click a link found by id, text or label.
   """
   def click_link text do
-    find_with_retry(:link, text)
-    |> do_click
+    find_with_retry(:link, text) |> do_click
   end
 
   @doc """

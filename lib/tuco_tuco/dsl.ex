@@ -4,9 +4,10 @@ defmodule TucoTuco.DSL do
       import unquote(__MODULE__)
       import TucoTuco.Actions
       import TucoTuco.Assertions
-      alias TucoTuco.Page, as: Page
-      alias WebDriver.Element, as: Element
       alias TucoTuco.Finder, as: Finder
+      alias TucoTuco.Page, as: Page
+      require TucoTuco.Page
+      alias WebDriver.Element, as: Element
       :ok
     end
   end
