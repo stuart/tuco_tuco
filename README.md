@@ -291,12 +291,12 @@ Example Session from console:
     "/getting_started/1.html"
 ```
 
-### Using with Phoenix
+## Using with Phoenix
 
 Here are some preliminary instructions for using TucoTuco for
 testing Phoenix applications.
 
-## Dependencies
+### Dependencies
 
 Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test mode.
 
@@ -336,7 +336,7 @@ Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test m
   end
 ```
 
-## Test Setup
+### Test Setup
 
 Add the setup block for the tests in the foo_test.exe file
 
