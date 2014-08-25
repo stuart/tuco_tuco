@@ -137,8 +137,13 @@ Here is a rough guide to using TucoTuco.
   Finder return elements from the DOM.
 
   ```elixir
-    Finder.find
+    Finder.find :id, "foo"
+    Finder.find :css, ".bar"
+    Finder.find :xpath, "//foo/bar"
   ```
+
+  Find returns an Element record.
+
 ### Elements
   The following functions for manipulating elements are imported from
   WebDriver, they all take a WebDriver.Element struct as the
@@ -286,7 +291,71 @@ Example Session from console:
     "/getting_started/1.html"
 ```
 
-###Changelog
+### Using with Phoenix
+
+Here are some preliminary instructions for using TucoTuco for
+testing Phoenix applications.
+
+## Dependencies
+
+Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test mode.
+
+```elixix
+  def application do
+    [
+      mod: { Photuco, [] },
+      applications: applications(Mix.env)
+    ]
+  end
+
+  defp applications do
+    [:phoenix, :cowboy]
+  end
+
+  defp applications :test do
+    applications ++ [:tuco_tuco]
+  end
+
+  defp applications _ do
+    applications
+  end
+
+  defp deps do
+    [
+      {:phoenix, github: "phoenixframework/phoenix"},
+      {:cowboy, "~> 1.0.0"}
+    ]
+  end
+
+  defp deps :test do
+    deps ++ [{:tuco_tuco, "~>0.6.0"}]
+  end
+
+  defp deps _ do
+    deps
+  end
+```
+
+## Test Setup
+
+Add the setup block for the tests in the foo_test.exe file
+
+```elixir
+  setup_all do
+    router = Phoenix.Project.module_root.Router
+    port = Phoenix.Config.get([router,:port])
+    router.start
+
+    {:ok, _} = TucoTuco.start_session :test_browser, :test_session, :firefox
+    TucoTuco.app_root "http://localhost:#{port}"
+
+    on_exit fn -> TucoTuco.stop end
+    :ok
+  end
+```
+
+### Changelog
+
 2014-08-20
   * 0.6.0
   * Webdriver 0.6.0
