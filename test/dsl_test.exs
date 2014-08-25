@@ -113,4 +113,9 @@ defmodule TucoTucoDSLTest do
     {:ok, data} = File.read(path)
     assert <<137,80,78,71,13,10,26,10, _::binary>> = data
   end
+
+  test "finder is imported" do
+    visit "http://localhost:8889/index.html"
+    assert %WebDriver.Element{id: _id, session: :tuco_test} = Finder.find(:id, "message")
+  end
 end

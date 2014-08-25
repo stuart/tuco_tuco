@@ -1,25 +1,23 @@
 defmodule TucoTuco.Finder do
-  import TucoTuco.DSL
-
   @doc """
     Find an element by id
   """
   def find :id, id do
-    WebDriver.Session.element(current_session, :id, id)
+    WebDriver.Session.element(TucoTuco.current_session, :id, id)
   end
 
   @doc """
     Find an element by xpath
   """
   def find :xpath, xpath do
-    WebDriver.Session.element(current_session, :xpath, xpath)
+    WebDriver.Session.element(TucoTuco.current_session, :xpath, xpath)
   end
 
   @doc """
     Find an element by css selector
   """
   def find :css, css do
-    WebDriver.Session.element(current_session, :css, css)
+    WebDriver.Session.element(TucoTuco.current_session, :css, css)
   end
 
   @doc """
@@ -28,7 +26,7 @@ defmodule TucoTuco.Finder do
   def find :link, term do
     case find :id, term do
       nil ->
-        WebDriver.Session.element(current_session, :link, term)
+        WebDriver.Session.element(TucoTuco.current_session, :link, term)
       element -> element
     end
   end
@@ -166,6 +164,6 @@ defmodule TucoTuco.Finder do
     Return an array of all the elements matching an xpath.
   """
   def find_all :xpath, xpath do
-    WebDriver.Session.elements(current_session, :xpath, xpath)
+    WebDriver.Session.elements(TucoTuco.current_session, :xpath, xpath)
   end
 end

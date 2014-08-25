@@ -1,7 +1,6 @@
 defmodule TucoTuco.Page do
-  import TucoTuco.DSL
-  import TucoTuco.Finder
   import TucoTuco.Retry
+  import TucoTuco.Finder
 
   @moduledoc """
     This module contains all the functions associated with querying the
@@ -214,9 +213,9 @@ defmodule TucoTuco.Page do
   def has_selector? using, selector, options \\ [count: nil] do
     count = Keyword.get(options, :count)
     if count != nil do
-      retry fn -> Enum.count(WebDriver.Session.elements(current_session, using, selector)) == count end
+      retry fn -> Enum.count(WebDriver.Session.elements(TucoTuco.current_session, using, selector)) == count end
     else
-      retry fn -> is_element? WebDriver.Session.element(current_session, using, selector) end
+      retry fn -> is_element? WebDriver.Session.element(TucoTuco.current_session, using, selector) end
     end
   end
 
@@ -224,7 +223,7 @@ defmodule TucoTuco.Page do
     The page has no elements matching the selector using the specified strategy.
   """
   def has_no_selector? using, selector do
-    retry fn -> is_not_element? WebDriver.Session.element(current_session, using, selector) end
+    retry fn -> is_not_element? WebDriver.Session.element(TucoTuco.current_session, using, selector) end
   end
 
   @doc """
@@ -252,5 +251,4 @@ defmodule TucoTuco.Page do
   def is_not_element? element do
     !is_element? element
   end
-
 end
