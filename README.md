@@ -12,7 +12,7 @@ easy for developers to write tests for a web application.
 ## Setup
 In your mix.exs add the following to the test environment deps:
 
-   ```{:tucotuco, "~>0.6.0"} ```
+   ```{:tucotuco, "~>0.6.1"} ```
 
 Either specify tuco_tuco in your application block in mix.exs or do:
 
@@ -355,6 +355,9 @@ Add the setup block for the tests in the foo_test.exe file
 ```
 
 ### Changelog
+2014-10-21
+  * 0.6.1
+  * Bump Webdriver version to 0.6.1
 
 2014-08-20
   * 0.6.0
