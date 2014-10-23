@@ -154,4 +154,79 @@ defmodule TucoTuco.DSL do
       data             -> File.write(file_path, :base64.decode(data))
     end
   end
+
+  @doc """
+    Accept an alert that comes up.
+
+    Note that alerts, prompts and dialogs will prevent interaction with
+    the page whilst they are open so any actions that open one
+    must be wrapped in an `accept_alert`, `accept_prompt` or `dismiss_confirm`
+    call.
+
+    Example:
+
+      accept_alert fn ->
+        click("Show Alert")
+      end
+  """
+  def accept_alert f do
+    f.()
+    WebDriver.Session.accept_alert current_session
+  end
+
+  @doc """
+    Return the text contained in an alert.
+
+    Example:
+
+      accept_alert fn ->
+        click("Show Alert")
+        assert "this is an alert" = alert_text
+      end
+  """
+  def alert_text do
+    WebDriver.Session.alert_text current_session
+  end
+
+  @doc """
+    Dismiss a confirmation dialog. This is the equivalent to clicking
+    on what is usually the Cancel button.
+
+    Example:
+
+      dismiss_confirm fn ->
+        click("Show Confirmation")
+      end
+  """
+  def dismiss_confirm f do
+    f.()
+    WebDriver.Session.dismiss_alert current_session
+  end
+
+  @doc """
+    Accept a prompt and fill it in with the text given.
+
+    Example:
+
+      accept_prompt "Elixir is Great", fn ->
+        click_link("Prompt me")
+      end
+  """
+  def accept_prompt text, f do
+    f.()
+    WebDriver.Session.alert_text current_session, text
+    WebDriver.Session.accept_alert current_session
+  end
+
+  @doc """
+    True or false depending on if a prompt, alert or confirm
+    dialog is currently open on the page.
+  """
+  def has_alert? do
+    case alert_text do
+      s when is_binary(s)       -> true
+      {:no_alert_open_error, _} -> false
+      _ -> false
+    end
+  end
 end
