@@ -12,7 +12,7 @@ easy for developers to write tests for a web application.
 ## Setup
 In your mix.exs add the following to the test environment deps:
 
-   ```{:tucotuco, "~>0.6.1"} ```
+   ```{:tucotuco, "~>0.7.0"} ```
 
 Either specify tuco_tuco in your application block in mix.exs or do:
 
@@ -328,7 +328,7 @@ Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test m
   end
 
   defp deps :test do
-    deps ++ [{:tuco_tuco, "~>0.6.0"}]
+    deps ++ [{:tuco_tuco, "~>0.7.0"}]
   end
 
   defp deps _ do
@@ -355,6 +355,10 @@ Add the setup block for the tests in the foo_test.exe file
 ```
 
 ### Changelog
+2014-10-23
+  * 0.7.0
+  * Add alert handling code
+  
 2014-10-21
   * 0.6.1
   * Bump Webdriver version to 0.6.1

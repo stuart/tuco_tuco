@@ -3,7 +3,7 @@ defmodule TucoTuco.Mixfile do
 
   def project do
     [ app: :tuco_tuco,
-      version: "0.6.1",
+      version: "0.7.0",
       elixir: "~> 1.0.1",
       description: "Testing tool for web applications",
       source_url: "https://github.com/stuart/tuco_tuco",
