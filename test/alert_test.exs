@@ -1,6 +1,6 @@
 Code.require_file "test_server.exs", __DIR__
 
-defmodule TucoTucoDSLTest do
+defmodule TucoTucoAlertTest do
   use ExUnit.Case
   use TucoTuco.DSL
 
