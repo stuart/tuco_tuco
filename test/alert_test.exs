@@ -7,7 +7,7 @@ defmodule TucoTucoAlertTest do
   setup_all do
     http_server_pid = TucoTuco.TestServer.start
     # Using chrome because phantomjs does not handle alerts.
-    TucoTuco.start_session :test_browser, :tuco_test, :chrome
+    TucoTuco.start_session :test_chrome_browser, :tuco_test, :chrome
     on_exit fn ->
       TucoTuco.stop
       TucoTuco.TestServer.stop(http_server_pid)
