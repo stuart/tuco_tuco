@@ -118,4 +118,5 @@ defmodule TucoTucoDSLTest do
     visit "http://localhost:8889/index.html"
     assert %WebDriver.Element{id: _id, session: :tuco_test} = Finder.find(:id, "message")
   end
+
 end

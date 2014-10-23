@@ -6,5 +6,19 @@
   <body>
     <h1>Page 3</h1>
     Thanks!
+    <h1>Alert Test</h1>
+    <a id='alert' href=# onclick="alert('this is an alert')")>Alert</a>
+    <a id='confirm' href=# onclick="confirm('confirm me')")>Confirm</a>
+    <a id='prompt' href=# onclick="doPrompt()">Prompt</a>
+    <p id='result'></p>
+    <script>
+    function doPrompt() {
+      var name = prompt("name", "");
+        if (name != null) {
+            document.getElementById("result").innerHTML =
+            "My name is " + name;
+        }
+    }
+    </script>
   </body>
 </html>
