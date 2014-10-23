@@ -40,7 +40,6 @@ defmodule TucoTucoAlertTest do
     accept_prompt "Stuart", fn ->
       click_link "Prompt"
     end
-    save_screenshot "prompt.png"
     assert Page.has_text?("My name is Stuart")
   end
 
