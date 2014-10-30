@@ -47,7 +47,7 @@ defmodule TucoTuco.Finder do
     Find a text field or textarea by id, name or label.
   """
   def find :fillable_field, term do
-    case find :xpath, "//input[@type='text' and (@name='#{term}' or @id='#{term}')] | \
+    case find :xpath, "//input[(@type='text' or @type='password') and (@name='#{term}' or @id='#{term}')] | \
     //textarea[@name='#{term}' or @id='#{term}']" do
       nil     -> find :field_for_label, term
       element -> element

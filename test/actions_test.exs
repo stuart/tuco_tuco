@@ -85,6 +85,10 @@ defmodule TucoTucoActionsTest do
     assert {:error, "No field found with id, name or label specified"} = fill_in "b1", "Frank"
   end
 
+  test "fill in a password input" do
+    assert {:ok, _} = fill_in "password", "secret_password"
+  end
+  
 # Choose Radio Buttons
   test "choose a radio button by id" do
     assert {:ok, _} = choose "male"
