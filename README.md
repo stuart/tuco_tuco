@@ -12,11 +12,11 @@ easy for developers to write tests for a web application.
 ## Setup
 In your mix.exs add the following to the test environment deps:
 
-   ```{:tucotuco, "~>0.7.0"} ```
+    {:tucotuco, "~>0.7.1"}
 
 Either specify tuco_tuco in your application block in mix.exs or do:
 
-   ``` :application.start TucoTuco ```
+    :application.start TucoTuco
 
 ## Requirements
 Testing requires that you have Phantomjs, Firefox or ChromeDriver installed.
@@ -30,15 +30,15 @@ Here is a rough guide to using TucoTuco.
 ### Starting A Session
   Import the DSL functionality with:
 
-   ```
-    use TucoTuco.DSL
-   ```
+```
+use TucoTuco.DSL
+```
 
   Start a session with:
 
-  ```
-    TucoTuco.start_session :browser_name, :session_name, :browser_type
-  ```
+```
+TucoTuco.start_session :browser_name, :session_name, :browser_type
+```
 
   Where browser_name and session_name are atoms to reference the running
   browser and session with later and browser_type is one of
@@ -51,96 +51,97 @@ Here is a rough guide to using TucoTuco.
 ### Navigation
   Visit sends the browser to other pages.
 
-  ```elixir
-    visit "http://elixir-lang.org"
-    visit "/login"
-  ```
+```elixir
+  visit "http://elixir-lang.org"
+  visit "/login"
+```
 
   Relative urls will be appended with the TucoTuco.app_root value.
 
   You can go back and forward in the browser history:
 
-  ```elixir
-    go_forward
-    go_back
-  ```
+```elixir
+  go_forward
+  go_back
+```
 
   And query the current url:
 
-  ```elixir
-    current_url
-    current_path
-    current_query
-    current_port
-  ```
+```elixir
+current_url
+current_path
+current_query
+current_port
+```
 
 ### Clicking
-  You can click on a link or button with the ```click_link``` and
-  ```click_button``` commands.
+  You can click on a link or button with the `click_link` and
+`click_button` commands.
 
-  ```elixir
-    click_link "Home"
-    click_link "i3"
-    click_button "Back"
-    click_button "Submit"
-  ```
+```elixir
+  click_link "Home"
+  click_link "i3"
+  click_button "Back"
+  click_button "Submit"
+```
 
   Yet to come: mouse movements.
 
 ### Forms
   Interacting with forms is easy with TucoTuco's functions for that:
 
-  ```elixir
-    fill_in "Login", "Stuart"
-    fill_in "Password", "secret_password"
-    click_button "Submit"
-    choose "A radio button"
-    select "Carrot"
-    select "Tomato", from: "Vegetables"
-    check "A Checkbox"
-  ```
+```elixir
+  fill_in "Login", "Stuart"
+  fill_in "Password", "secret_password"
+  click_button "Submit"
+  choose "A radio button"
+  select "Carrot"
+  select "Tomato", from: "Vegetables"
+  check "A Checkbox"
+```
 
   You can even attach files:
 
-  ```elixir
-    attach_file "Upload Picture", "path/to/my_photo.png"
-  ```
+```elixir
+  attach_file "Upload Picture", "path/to/my_photo.png"
+```
 
 ### Querying
   Getting information about the page to use in assertions:
 
-  ```elixir
-    Page.has_css? "table thead tr.header"
-    Page.has_xpath? "//foo/bar[@name='baz']"
-    Page.has_text? "Some text from the page"
-    Page.has_link? "Back"
-  ```
+```elixir
+  Page.has_css? "table thead tr.header"
+  Page.has_xpath? "//foo/bar[@name='baz']"
+  Page.has_text? "Some text from the page"
+  Page.has_link? "Back"
+```
 
-  With ```has_css?``` and ```has_xpath?``` you can specify a count
+  With 'has_css?` and `has_xpath?` you can specify a count
   of how many should be found.
 
-  ```elixir
-    # Check that there are 5 rows in the table.
-    Page.has_css? "table tbody tr", count: 5
-  ```
+```elixir
+  # Check that there are 5 rows in the table.
+  Page.has_css? "table tbody tr", count: 5
+```
 
   There are many more. Check the documentation for them.
 
 ### Assertions
   TucoTuco supplies two assertions that you can use directly in tests:
 
-  ```elixir
-    assert_selector :xpath, "//foo/bar"
-    refute_selector :xpath, "//baz[@class='bob']"
-  ```
+```elixir
+  assert_selector :xpath, "//foo/bar"
+  refute_selector :xpath, "//baz[@class='bob']"
+```
+
 ### Finder
   Finder return elements from the DOM.
 
-  ```elixir
-    Finder.find :id, "foo"
-    Finder.find :css, ".bar"
-    Finder.find :xpath, "//foo/bar"
-  ```
+```elixir
+  Finder.find :id, "foo"
+  Finder.find :css, ".bar"
+  Finder.find :xpath, "//foo/bar"
+```
 
   Find returns an Element record.
 
@@ -149,35 +150,35 @@ Here is a rough guide to using TucoTuco.
   WebDriver, they all take a WebDriver.Element struct as the
   first argument. Luckily that is exactly what all the finders return:
 
-  ```elixir
-    Element.attribute reference, :a_html_attribute
-    Element.clear reference
-    Element.click reference
-    Element.css reference, "some-css-property-name"
-    Element.displayed? reference
-    Element.enabled? reference
-    Element.equals? reference, other_reference
-    Element.location? reference
-    Element.location_in_view? reference
-    Element.name reference
-    Element.selected? reference
-    Element.size reference
-    Element.submit reference
-    Element.text reference
-    Element.value reference, "value to set"
-  ```
+```elixir
+  Element.attribute reference, :a_html_attribute
+  Element.clear reference
+  Element.click reference
+  Element.css reference, "some-css-property-name"
+  Element.displayed? reference
+  Element.enabled? reference
+  Element.equals? reference, other_reference
+  Element.location? reference
+  Element.location_in_view? reference
+  Element.name reference
+  Element.selected? reference
+  Element.size reference
+  Element.submit reference
+  Element.text reference
+  Element.value reference, "value to set"
+```
 
   For more detailed docs on the Element functions see
   [WebDriver.Element](http://stuart.github.io/elixir-webdriver/WebDriver.Element.html).
 
 ### Javascript
-  Javascript can be run using the ```execute_javascript``` and ```execute_async_javascript```
+  Javascript can be run using the `execute_javascript` and `execute_async_javascript`
   commands.
 
-  ```elixir
-    iex> execute_javascript "return argument[0] * 10", [3]
-    iex> 30
-  ```
+```elixir
+  iex> execute_javascript "return argument[0] * 10", [3]
+  iex> 30
+```
 
 ### Retrying
   When you are testing applications that have Javascript modifying the page
@@ -189,32 +190,30 @@ Here is a rough guide to using TucoTuco.
 
   You can also use the retry function yourself like this:
 
-  ```elixir
-    # Find elements
-    TucoTuco.Finder.find using, selector
+```elixir
+  # Find elements
+  TucoTuco.Finder.find using, selector
 
-    # Any function
-    TucoTuco.Retry.retry fn -> my_function(args) end
-  ```
+  # Any function
+  TucoTuco.Retry.retry fn -> my_function(args) end
+```
 
   Changing retry settings:
 
-  ```elixir
-    # Set retries on
-    TucoTuco.use_retries true
-    # Set the maximum retry time in milliseconds.
-    TucoTuco.max_retry_time 1000
-    # Set the delay between retries in milliseconds.
-    TucoTuco.retry_delay 20
-  ```
+```elixir
+  # Set retries on
+  TucoTuco.use_retries true
+  # Set the maximum retry time in milliseconds.
+  TucoTuco.max_retry_time 1000
+  # Set the delay between retries in milliseconds.
+  TucoTuco.retry_delay 20
+```
 
 ### Multiple Sessions
   You can run multiple sessions on different browser or on the same browser.
   To start a session use:
 
-  ```
     TucoTuco.start_session :browser_name, :session_name, browser_type
-  ```
 
   Where the browser type is one of :phantomjs, :firefox or :chrome.
   If the process :browser_name is already running the session will be started on
@@ -222,22 +221,18 @@ Here is a rough guide to using TucoTuco.
 
   Once you have multiple sessions running you can swap sessions with:
 
-  ```
     TucoTuco.session :new_session
-  ```
 
   And to get a list of sessions that are running:
-  ```
+
     TucoTuco.sessions
-  ```
+
 
 ### Screenshot
    When the driver supports it, you can take a screenshot and
    save it as a PNG file.
 
-   ```
-      save_screenshot "path/to/file.png"
-   ```
+    save_screenshot "path/to/file.png"
 
 Example Session from console:
 
@@ -300,7 +295,7 @@ testing Phoenix applications.
 
 Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test mode.
 
-```elixix
+```elixir
   def application do
     [
       mod: { Photuco, [] },
@@ -323,16 +318,9 @@ Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test m
   defp deps do
     [
       {:phoenix, github: "phoenixframework/phoenix"},
-      {:cowboy, "~> 1.0.0"}
+      {:cowboy, "~> 1.0.0"},
+      {:tuco_tuco, "~>0.7.1"}
     ]
-  end
-
-  defp deps :test do
-    deps ++ [{:tuco_tuco, "~>0.7.0"}]
-  end
-
-  defp deps _ do
-    deps
   end
 ```
 
@@ -355,10 +343,14 @@ Add the setup block for the tests in the foo_test.exe file
 ```
 
 ### Changelog
+2014-10-30
+  * 0.7.1
+  * Made password inputs fillable
+  
 2014-10-23
   * 0.7.0
   * Add alert handling code
-  
+
 2014-10-21
   * 0.6.1
   * Bump Webdriver version to 0.6.1

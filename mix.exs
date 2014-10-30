@@ -3,13 +3,16 @@ defmodule TucoTuco.Mixfile do
 
   def project do
     [ app: :tuco_tuco,
-      version: "0.7.0",
+      version: "0.7.1",
       elixir: "~> 1.0.1",
       description: "Testing tool for web applications",
       source_url: "https://github.com/stuart/tuco_tuco",
       homepage_url: "http://stuart.github.io/tuco_tuco",
       package: package,
-      deps: deps
+      deps: deps,
+      docs: [
+        readme: true
+      ]
     ]
   end
 
