@@ -51,6 +51,10 @@ defmodule TucoTucoPageTest do
     assert Page.has_field? "Name"
   end
 
+  test "has_field? works for passwords" do
+    assert Page.has_field? "password"
+  end
+  
   test "has_no_field?" do
     assert Page.has_no_field? "Address"
   end
