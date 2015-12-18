@@ -12,7 +12,7 @@ easy for developers to write tests for a web application.
 ## Setup
 In your mix.exs add the following to the test environment deps:
 
-    {:tucotuco, "~>0.7.1"}
+    {:tuco_tuco, "~>0.7.1", only: test}
 
 Either specify tuco_tuco in your application block in mix.exs or do:
 
