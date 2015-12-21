@@ -1,20 +1,18 @@
-language: erlang
+language: elixir
+
 notifications:
-  email: false
+  email: true
+
 otp_release:
-  - 17.4
-env:
-  - ELIXIR="v1.1.1"
+  - 18.0
+
+elixir:
+  - 1.1.1
 
 before_install:
-   - mkdir -p vendor/elixir
-   - wget -q https://github.com/elixir-lang/elixir/releases/download/$ELIXIR/Precompiled.zip && unzip -qq Precompiled.zip -d vendor/elixir
-   - export MIX_ENV=test
-   - "export DISPLAY=:99.0"
-   - "sh -e /etc/init.d/xvfb start"
+  - export MIX_ENV=test
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - mix do deps.get, deps.compile, webdriver.firefox.install
 
-before_script:
-   - "export PATH=$PATH:`pwd`/vendor/elixir/bin"
-   - mix local.hex --force
-
-script: "MIX_ENV=test mix do deps.get, deps.compile, webdriver.firefox.install, test"
+script: mix test
