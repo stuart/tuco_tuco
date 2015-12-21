@@ -9,6 +9,9 @@ otp_release:
 elixir:
   - 1.1.1
 
+addons:
+  firefox: "38.0.5"
+
 before_install:
   - export MIX_ENV=test
   - "export DISPLAY=:99.0"
