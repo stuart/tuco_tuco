@@ -25,6 +25,7 @@ defmodule TucoTuco.Mixfile do
 
   defp deps do
     [ {:webdriver, "~>0.8.1"},
+      {:ibrowse,   github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
       {:earmark,   "~>0.1.10", only: :dev},
       {:ex_doc,    "~>0.6", only: :dev}]
   end

@@ -5,4 +5,4 @@
   "jazz": {:hex, :jazz, "0.2.1"},
   "jsonex": {:git, "git://github.com/marcelog/jsonex.git", "82e6c416eed5e791073427bf3079d7ab7b85a1e1", []},
   "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "507fa4c41db33c81e925ab53f4d789d234aaff2f", []},
-  "webdriver": {:hex, :webdriver, "0.7.0"}}
+  "webdriver": {:hex, :webdriver, "0.8.1"}}
