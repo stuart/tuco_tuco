@@ -12,7 +12,7 @@ easy for developers to write tests for a web application.
 ## Setup
 In your mix.exs add the following to the test environment deps:
 
-    {:tuco_tuco, "~>0.7.1", only: test}
+    {:tuco_tuco, "~>0.8.1", only: test}
 
 Either specify tuco_tuco in your application block in mix.exs or do:
 
@@ -319,7 +319,7 @@ Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test m
     [
       {:phoenix, github: "phoenixframework/phoenix"},
       {:cowboy, "~> 1.0.0"},
-      {:tuco_tuco, "~>0.7.1"}
+      {:tuco_tuco, "~>0.8.1"}
     ]
   end
 ```
@@ -343,10 +343,14 @@ Add the setup block for the tests in the foo_test.exe file
 ```
 
 ### Changelog
+2014-12-20
+  * 0.8.1
+  * Elixir 1.1.1 compatability
+
 2014-10-30
   * 0.7.1
   * Made password inputs fillable
-  
+
 2014-10-23
   * 0.7.0
   * Add alert handling code

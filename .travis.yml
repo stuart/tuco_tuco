@@ -2,9 +2,9 @@ language: erlang
 notifications:
   email: false
 otp_release:
-  - 17.0
+  - 18.0
 env:
-  - ELIXIR="v1.0.1"
+  - ELIXIR="v1.1.1"
 before_install:
    - mkdir -p vendor/elixir
    - wget -q https://github.com/elixir-lang/elixir/releases/download/$ELIXIR/Precompiled.zip && unzip -qq Precompiled.zip -d vendor/elixir
