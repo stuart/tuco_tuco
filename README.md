@@ -326,7 +326,7 @@ Edit mix.exs to include the tuco_tuco dependency and to start TucoTuco in test m
 
 ### Test Setup
 
-Add the setup block for the tests in the foo_test.exe file
+Add the setup block for the tests in the `foo_test.exs` file
 
 ```elixir
   setup_all do
