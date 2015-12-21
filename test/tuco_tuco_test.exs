@@ -55,5 +55,4 @@ defmodule TucoTucoTest do
     {:ok, _} = TucoTuco.retry_delay 20
     assert TucoTuco.retry_delay == 20
   end
-
 end

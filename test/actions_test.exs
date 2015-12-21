@@ -88,7 +88,7 @@ defmodule TucoTucoActionsTest do
   test "fill in a password input" do
     assert {:ok, _} = fill_in "password", "secret_password"
   end
-  
+
 # Choose Radio Buttons
   test "choose a radio button by id" do
     assert {:ok, _} = choose "male"
@@ -204,12 +204,12 @@ defmodule TucoTucoActionsTest do
     refute WebDriver.Element.selected? shifter
   end
 
-  @tag wip: true
   test "unselect an option" do
-    {:ok, _} = select "tuesday"
-    {:ok, _} = unselect "tuesday"
-    option = WebDriver.Session.element current_session, :xpath, "//option[@value='tuesday']"
-    refute WebDriver.Element.selected? option
+    {:ok, _} = select "Hammer"
+    {:ok, _} = select "Pliers"
+    {:ok, _} = unselect "Hammer"
+    hammer = WebDriver.Session.element current_session, :name, "hammer"
+    refute WebDriver.Element.selected? hammer
   end
 
   test "attach a file" do
@@ -218,8 +218,7 @@ defmodule TucoTucoActionsTest do
     assert Regex.match?(~r{upload.txt}, current_query)
   end
 
-  @tag wip: true
   test "attach a file that does not exist" do
-    assert {:error, "File not found"} = attach_file "Upload", "test/nothing.txt"
+    assert {:error, "File not found: test/nothing.txt"} = attach_file "Upload", "test/nothing.txt"
   end
 end
