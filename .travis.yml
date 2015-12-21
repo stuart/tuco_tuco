@@ -2,7 +2,7 @@ language: erlang
 notifications:
   email: false
 otp_release:
-  - 17.5
+  - 17.4
 env:
   - ELIXIR="v1.1.1"
 
