@@ -10,7 +10,7 @@ elixir:
   - 1.1.1
 
 addons:
-  firefox: "38.0.5"
+  firefox: "38.0"
 
 before_install:
   - export MIX_ENV=test
