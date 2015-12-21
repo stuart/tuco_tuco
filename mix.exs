@@ -3,8 +3,8 @@ defmodule TucoTuco.Mixfile do
 
   def project do
     [ app: :tuco_tuco,
-      version: "0.7.1",
-      elixir: "~> 1.0.1",
+      version: "0.8.1",
+      elixir: "~> 1.1.1",
       description: "Testing tool for web applications",
       source_url: "https://github.com/stuart/tuco_tuco",
       homepage_url: "http://stuart.github.io/tuco_tuco",
@@ -24,14 +24,14 @@ defmodule TucoTuco.Mixfile do
   end
 
   defp deps do
-    [ {:ibrowse,   github: "cmullaparthi/ibrowse", tag: "v4.1.0"},
-      {:webdriver, "~>0.7.0"},
+    [ {:webdriver, "~>0.8.1"},
+      {:ibrowse,   github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
       {:earmark,   "~>0.1.10", only: :dev},
       {:ex_doc,    "~>0.6", only: :dev}]
   end
 
   defp package do
-    [contributors: ["Stuart Coyle"],
+    [maintainers: ["Stuart Coyle"],
      licenses: ["MIT License"],
      links: %{"Github" => "https://github.com/stuart/tuco-tuco"}]
   end

@@ -42,14 +42,14 @@ defmodule TucoTucoSynchTest do
   end
 
   test "retry returns true if function eventually is true" do
-    start = :erlang.now
-    fun = fn -> :timer.now_diff(:erlang.now, start) > 300000 end
+    start = :erlang.timestamp
+    fun = fn -> :timer.now_diff(:erlang.timestamp, start) > 300000 end
     assert TucoTuco.Retry.retry fun
   end
 
   test "retry returns false if function takes too long" do
-    start = :erlang.now
-    fun = fn -> :timer.now_diff(:erlang.now, start) > 3000000 end
+    start = :erlang.timestamp
+    fun = fn -> :timer.now_diff(:erlang.timestamp, start) > 3000000 end
     refute TucoTuco.Retry.retry fun
   end
 
@@ -64,7 +64,7 @@ defmodule TucoTucoSynchTest do
   end
 
   def element_test_fun start do
-    if :timer.now_diff(:erlang.now, start) > 300000 do
+    if :timer.now_diff(:erlang.timestamp, start) > 300000 do
       %WebDriver.Element{}
     else
       nil
@@ -72,12 +72,12 @@ defmodule TucoTucoSynchTest do
   end
 
   test "retry returns an element if function eventually returns one" do
-    start = :erlang.now
+    start = :erlang.timestamp
     assert %WebDriver.Element{}  == TucoTuco.Retry.retry(fn -> element_test_fun(start) end )
   end
 
   def response_test_fun start do
-    if :timer.now_diff(:erlang.now, start) > 300000 do
+    if :timer.now_diff(:erlang.timestamp, start) > 300000 do
       {:ok, "response"}
     else
       {:error, "message"}
@@ -85,7 +85,7 @@ defmodule TucoTucoSynchTest do
   end
 
   test "retry returns a response tuple if function eventually returns one" do
-    start = :erlang.now
+    start = :erlang.timestamp
     assert {:ok, "response"} == TucoTuco.Retry.retry(fn -> response_test_fun(start) end )
   end
 
@@ -110,7 +110,7 @@ defmodule TucoTucoSynchTest do
   end
 
   test "find an element that never appears" do
-    assert nil = TucoTuco.Finder.find_with_retry :css, "p.text"
+    assert nil == TucoTuco.Finder.find_with_retry :css, "p.text"
   end
 
   test "click on an element that is slow to appear" do
